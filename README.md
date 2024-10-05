@@ -22,7 +22,7 @@ Options:
   -h, --help                     display help for command
 
 Commands:
-  render [options] <source>
+  render [options] <source>      generate an image from the CSS Doodle source file
   preview [options] <source>     open a window to preview the CSS Doodle file
   parse <source>                 print the parsed tokens, helped to debug on development
   config                         display/set the configuration
@@ -30,6 +30,7 @@ Commands:
 ```
 
 ## render
+Generate an image from the CSS Doodle source file
 
 ```bash
 $ css-doodle render code.css
