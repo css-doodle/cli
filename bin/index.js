@@ -23,7 +23,6 @@ function read(path) {
     return { content, error };
 }
 
-
 async function handleGenerate(source, options) {
     let { content, error } = read(source);
     if (error) {
@@ -89,7 +88,8 @@ program
     .version(pkg.version);
 
 program
-    .command('screenshot')
+    .command('render')
+    .description('generate an image from the CSS Doodle source file')
     .argument('<source>', 'the CSS Doodle source file used to generate the image')
     .option('-o, --output <output>', 'custom filename of the generated image')
     .option('-x, --scale <scale>', 'scale factor of the generated image, defaults to 1')

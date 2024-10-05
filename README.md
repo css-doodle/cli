@@ -22,17 +22,17 @@ Options:
   -h, --help                     display help for command
 
 Commands:
-  screenshot [options] <source>
+  render [options] <source>
   preview [options] <source>     open a window to preview the CSS Doodle file
   parse <source>                 print the parsed tokens, helped to debug on development
   config                         display/set the configuration
   help [command]                 display help for command
 ```
 
-## screenshot
+## render
 
 ```bash
-$ css-doodle screenshot code.css
+$ css-doodle render code.css
 ```
 
 #### -o, --output
@@ -40,7 +40,7 @@ $ css-doodle screenshot code.css
 Custom filename of the generated image.
 
 ```bash
-$ css-doodle screenshot code.css -o result.png
+$ css-doodle render code.css -o result.png
 ```
 
 #### -x, --scale
@@ -48,7 +48,7 @@ $ css-doodle screenshot code.css -o result.png
 Scale factor of the generated image, defaults to 1.
 
 ```bash
-$ css-doodle screenshot code.css -x 4
+$ css-doodle render code.css -x 4
 ```
 
 ## preview
@@ -79,7 +79,7 @@ $ css-doodle config
 
 #### browserPath
 
-Use a custom browser to preview and screenshot.
+Use a custom browser to preview and generate images.
 
 ```bash
 $ css-doodle config browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
