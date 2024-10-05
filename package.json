@@ -1,0 +1,41 @@
+{
+  "name": "@css-doodle/cli",
+  "version": "1.0.1",
+  "description": "The css-doodle CLI for previewing and generating images",
+  "bin": {
+    "css-doodle": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish": "npm publish --access public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/css-doodle/cli.git"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/css-doodle"
+  },
+  "keywords": [
+    "css-doodle"
+  ],
+  "author": "yuanchuan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/css-doodle/cli/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://github.com/css-doodle/cli#readme",
+  "type": "module",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "css-doodle": "^0.40.6",
+    "node-watch": "^0.7.4",
+    "puppeteer": "^23.5.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {}
+}

@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>css-doodle</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            display: grid;
+            place-items: center;
+            background: #282828;
+        }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script type="module">
+        import('/css-doodle');
+
+        const MIN_SIZE = 400;
+        const MAX_SIZE = 800;
+
+        let doodle;
+        let autoResize = true;
+        const query = new URLSearchParams(location.search);
+
+        if (query.get('fullscreen')) {
+            autoResize = false;
+        }
+
+        const title = query.get('title');
+        if (title) {
+            document.title = title;
+        }
+
+        const instance = query.get('instance');
+        const ws = new WebSocket(`ws://${location.host}?instance=${instance}`);
+        ws.addEventListener('message', handleMessages);
+
+        ws.addEventListener('open', () => {
+            ws.send(JSON.stringify({ type: 'ping' }));
+        });
+
+        function handleMessages(e) {
+            let input = {};
+            try {
+                input = JSON.parse(e.data);
+            } catch(e) {
+                console.error(e);
+            }
+            let { data, type } = input;
+            switch (type) {
+                case 'update': {
+                    if (doodle && doodle.update) {
+                        doodle.update(data);
+                    } else {
+                        doodle = document.createElement('css-doodle');
+
+                        doodle.addEventListener('render', () => {
+                            updateWindow();
+                        });
+
+                        doodle.innerHTML = `<style>${data}</style>`;
+                        doodle.setAttribute('click-to-update', '');
+                        container.appendChild(doodle);
+                    }
+                }
+            }
+        }
+
+        function clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+
+        function updateWindow() {
+            let { width, height }  = doodle.getBoundingClientRect();
+            document.title = title + ` (${Math.round(width)}x${Math.round(height)})`;
+
+            if (autoResize) {
+                autoResize = false;
+                width = clamp(width, MIN_SIZE, MAX_SIZE);
+                height = clamp(height, MIN_SIZE, MAX_SIZE);
+                window.resizeTo(width, height + 28);
+            }
+        }
+
+        if (!query.get('fullscreen')) {
+            window.addEventListener('resize', updateWindow);
+        }
+    </script>
+</body>
+<html>
