@@ -2,12 +2,69 @@
 
 The css-doodle CLI for previewing and generating images.
 
-<img src="screenshot/screenshot.png" width="400px" alt="screenshot" />
+<img src="screenshot/preview.png" width="480px" alt="screenshot" />
 
 ## Installation
 
 ```bash
 npm install -g @css-doodle/cli
+```
+
+## Commands 
+
+### render
+Generate an image from the CSS Doodle source file.
+
+```bash
+$ css-doodle render code.css
+```
+
+#### -o, --output
+
+Custom output filename of the generated image.
+
+```bash
+$ css-doodle render code.css -o result.png
+```
+
+#### -x, --scale
+
+Scale factor of the generated image, defaults to 1.
+
+```bash
+$ css-doodle render code.css -x 4
+```
+
+### preview
+Open a window to preview the CSS Doodle file.
+
+```bash
+$ css-doodle preview code.css
+```
+
+#### --fullscreen
+
+Open the preview in fullscreen mode.
+
+```bash
+$ css-doodle preview code.css --fullscreen
+```
+
+
+### config
+
+Display/set the configuration.
+
+```bash
+$ css-doodle config
+```
+
+#### browserPath
+
+Use a custom browser to preview and generate images.
+
+```bash
+$ css-doodle config browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 ```
 
 ## Usage
@@ -29,59 +86,3 @@ Commands:
   help [command]                 display help for command
 ```
 
-## render
-Generate an image from the CSS Doodle source file
-
-```bash
-$ css-doodle render code.css
-```
-
-#### -o, --output
-
-Custom filename of the generated image.
-
-```bash
-$ css-doodle render code.css -o result.png
-```
-
-#### -x, --scale
-
-Scale factor of the generated image, defaults to 1.
-
-```bash
-$ css-doodle render code.css -x 4
-```
-
-## preview
-Open a window to preview the CSS Doodle file.
-
-```bash
-$ css-doodle preview code.css
-```
-
-<img src="screenshot/preview.png" width="480px" alt="screenshot" />
-
-#### --fullscreen
-
-Open the preview in fullscreen mode.
-
-```bash
-$ css-doodle preview code.css --fullscreen
-```
-
-
-## config
-
-Display/set the configuration.
-
-```bash
-$ css-doodle config
-```
-
-#### browserPath
-
-Use a custom browser to preview and generate images.
-
-```bash
-$ css-doodle config browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
-```
