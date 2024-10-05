@@ -1,6 +1,6 @@
 {
   "name": "@css-doodle/cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "The css-doodle CLI for previewing and generating images",
   "bin": {
     "css-doodle": "bin/index.js"
