@@ -51,7 +51,13 @@ export function preview(sourceFile, title, options = {}) {
                 settings.executablePath = config.browserPath;
             }
 
-            puppeteer.launch(settings);
+            puppeteer.launch(settings)
+                .catch(e => {
+                    console.log(e.message);
+                    serverProcess.kill();
+                    process.exit(1);
+                });
+            }
         }
 
         if (message.exit) {
