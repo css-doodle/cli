@@ -6,7 +6,7 @@ import path from 'node:path';
 import { pkg, config, configPath } from '../src/static.js';
 import { parse } from '../src/parse.js';
 import { preview } from '../src/preview/index.js';
-import { screenshot } from '../src/screenshot.js';
+import { render } from '../src/render.js';
 
 import { Command } from 'commander';
 
@@ -32,7 +32,7 @@ async function handleGenerate(source, options) {
         let basename = path.basename(source);
         let extname = path.extname(basename);
         let title = extname ? basename.split(extname)[0] : basename;
-        let output = await screenshot(content, {
+        let output = await render(content, {
             title,
             output: options.output,
             scale: options.scale

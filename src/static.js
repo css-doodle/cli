@@ -1,7 +1,7 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import os from 'node:os';
 
 const isLinux = os.platform() === 'linux';
 const root = dirname(fileURLToPath(import.meta.url));

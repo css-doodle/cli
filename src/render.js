@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import { config, cssDoodleLib, defaultAppArgs } from './static.js';
 
-export async function screenshot(code, options = {}) {
+export async function render(code, options = {}) {
     options.selector ??= 'css-doodle';
 
     const settings = {
@@ -56,7 +56,6 @@ async function screenshotDOMElement(page, options = {}) {
 
     const rect = await page.evaluate(() => {
         let element = document.querySelector(document.body.dataset.selector);
-        // fallback to body
         if (!element) {
             element = document.body;
         }
