@@ -7,7 +7,7 @@ import { pkg, config, configPath } from '../src/static.js';
 import { parse } from '../src/parse.js';
 import { preview } from '../src/preview/index.js';
 import { render } from '../src/render.js';
-import { generateSVG } from '../src/generate-svg.js';
+import { generateSVG, generateShape } from '../src/generate.js';
 
 import { Command } from 'commander';
 
@@ -70,7 +70,7 @@ function handlePreview(source, options) {
     }
 }
 
-function handleGenerate(source) {
+function handleGenerateSVG(source) {
     let { content, error } = read(source);
     if (error) {
         console.log(error.message);
@@ -82,6 +82,16 @@ function handleGenerate(source) {
         } else {
             console.log('Not a valid SVG format');
         }
+    }
+}
+
+function handleGenerateShape(source) {
+    let { content, error } = read(source);
+    if (error) {
+        console.log(error.message);
+        process.exit(1);
+    } else {
+        console.log(generateShape(content));
     }
 }
 
@@ -121,23 +131,12 @@ program.command('preview')
         handlePreview(source, options);
     });
 
-program.command('generate')
-    .description('generate code using CSS Doodle generators')
-    .action((_, cmd) => {
-        cmd.help();
-    })
-    .command('svg <source>')
-    .action((source, options, command) => {
-        handleGenerate(source);
-    });
-
 program.command('parse')
     .description('print the parsed tokens, helped to debug on development')
     .argument('<source>', 'source file to parse')
     .action((source) => {
         handleParse(source);
     });
-
 
 program.command('config')
     .description('display/set the configuration')
@@ -152,6 +151,24 @@ program.command('config')
             handleSetBrowser(path);
         }
     });
+
+const commandGenerate = program.command('generate')
+    .description('generate code using CSS Doodle generators')
+    .action((_, cmd) => {
+        cmd.help();
+    });
+
+    commandGenerate.command('svg <source>')
+        .description('generate SVG code using svg() function')
+        .action((source) => {
+            handleGenerateSVG(source);
+        })
+
+    commandGenerate.command('polygon <source>')
+        .description('generate CSS polygon() using shape() function')
+        .action((source) => {
+            handleGenerateShape(source);
+        });
 
 if (process.argv.length <= 2) {
     program.help();
