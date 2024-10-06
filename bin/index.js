@@ -2,6 +2,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 
 import { pkg, config, configPath } from '../src/static.js';
 import { parse } from '../src/parse.js';
@@ -13,26 +14,58 @@ import { Command } from 'commander';
 
 const program = new Command();
 
-function read(path) {
+async function read(path) {
     let content = '';
     let error = null;
-    try {
-        content = fs.readFileSync(path, 'utf8');
-    } catch (e) {
-        error = e;
+    if (path === undefined) {
+        console.log('No source file specified, reading from stdin...');
+        let key = os.platform() === 'win32' ? 'CTRL+Z' : 'CTRL+D';
+        console.log(`Press ${key} to finish input.\n`);
+        try {
+            content = await readFromStdin();
+        } catch (e) {
+            error = e;
+        }
+    } else {
+        try {
+            content = fs.readFileSync(path, 'utf8');
+        } catch (e) {
+            error = e;
+        }
     }
     return { content, error };
 }
 
+function readFromStdin() {
+    return new Promise((resolve, reject) => {
+        let content = '';
+        process.stdin.setEncoding('utf8');
+        process.stdin.on('readable', () => {
+            let chunk;
+            while ((chunk = process.stdin.read())) {
+                content += chunk;
+            }
+        });
+        process.stdin.on('end', () => {
+            resolve(content);
+        });
+        process.stdin.on('error', reject);
+    });
+}
+
 async function handleRender(source, options) {
-    let { content, error } = read(source);
+    let { content, error } = await read(source);
     if (error) {
         console.log(error.message);
         process.exit(1);
     } else {
-        let basename = path.basename(source);
-        let extname = path.extname(basename);
-        let title = extname ? basename.split(extname)[0] : basename;
+        let title = 'image';
+        if (source) {
+            let basename = path.basename(source);
+            let extname = path.extname(basename);
+            title = extname ? basename.split(extname)[0] : basename;
+        }
+
         let output = await render(content, {
             title,
             output: options.output,
@@ -44,8 +77,8 @@ async function handleRender(source, options) {
     }
 }
 
-function handleParse(source) {
-    let { content, error } = read(source);
+async function handleParse(source) {
+    let { content, error } = await read(source);
     if (error) {
         console.log(error.message);
         process.exit(1);
@@ -59,8 +92,8 @@ function handleParse(source) {
     }
 }
 
-function handlePreview(source, options) {
-    let { content, error } = read(source);
+async function handlePreview(source, options) {
+    let { content, error } = await read(source);
     if (error) {
         console.log(error.message);
         process.exit(1);
@@ -70,8 +103,8 @@ function handlePreview(source, options) {
     }
 }
 
-function handleGenerateSVG(source) {
-    let { content, error } = read(source);
+async function handleGenerateSVG(source) {
+    let { content, error } = await read(source);
     if (error) {
         console.log(error.message);
         process.exit(1);
@@ -85,8 +118,8 @@ function handleGenerateSVG(source) {
     }
 }
 
-function handleGenerateShape(source) {
-    let { content, error } = read(source);
+async function handleGenerateShape(source) {
+    let { content, error } = await read(source);
     if (error) {
         console.log(error.message);
         process.exit(1);
@@ -116,7 +149,7 @@ program
 program
     .command('render')
     .description('generate an image from the CSS Doodle source file')
-    .argument('<source>', 'the CSS Doodle source file used to generate the image')
+    .argument('[source]', 'the CSS Doodle source file used to generate the image')
     .option('-o, --output <output>', 'custom filename of the generated image')
     .option('-x, --scale <scale>', 'scale factor of the generated image, defaults to 1')
     .action((source, options) => {
@@ -133,7 +166,7 @@ program.command('preview')
 
 program.command('parse')
     .description('print the parsed tokens, helped to debug on development')
-    .argument('<source>', 'source file to parse')
+    .argument('[source]', 'source file to parse')
     .action((source) => {
         handleParse(source);
     });
@@ -158,15 +191,15 @@ const commandGenerate = program.command('generate')
         cmd.help();
     });
 
-    commandGenerate.command('svg <source>')
+    commandGenerate.command('svg [source]')
         .description('generate SVG code using svg() function')
         .action((source) => {
             handleGenerateSVG(source);
         })
 
-    commandGenerate.command('polygon <source>')
+    commandGenerate.command('polygon [source]')
         .description('generate CSS polygon() using shape() function')
-        .action((source) => {
+        .action(source => {
             handleGenerateShape(source);
         });
 
