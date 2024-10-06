@@ -1,6 +1,6 @@
 {
   "name": "@css-doodle/cli",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "The css-doodle CLI for previewing and generating images",
   "bin": {
     "css-doodle": "bin/index.js"
@@ -18,6 +18,10 @@
   },
   "keywords": [
     "css-doodle"
+  ],
+  "files": [
+    "bin",
+    "src"
   ],
   "author": "yuanchuan",
   "license": "MIT",
