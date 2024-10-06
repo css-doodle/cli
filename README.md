@@ -99,9 +99,9 @@ Options:
   -h, --help                  display help for command
 
 Commands:
-  render [options] <source>   generate an image from the CSS Doodle source file
+  render [options] [source]   generate an image from the CSS Doodle source file
   preview [options] <source>  open a window to preview the CSS Doodle file
-  parse <source>              print the parsed tokens, helped to debug on development
+  parse [source]              print the parsed tokens, helped to debug on development
   config                      display/set the configuration
   generate                    generate code using CSS Doodle generators
   help [command]              display help for command
