@@ -7,6 +7,7 @@ import { pkg, config, configPath } from '../src/static.js';
 import { parse } from '../src/parse.js';
 import { preview } from '../src/preview/index.js';
 import { render } from '../src/render.js';
+import { generateSVG } from '../src/generate-svg.js';
 
 import { Command } from 'commander';
 
@@ -23,7 +24,7 @@ function read(path) {
     return { content, error };
 }
 
-async function handleGenerate(source, options) {
+async function handleRender(source, options) {
     let { content, error } = read(source);
     if (error) {
         console.log(error.message);
@@ -69,6 +70,21 @@ function handlePreview(source, options) {
     }
 }
 
+function handleGenerate(source) {
+    let { content, error } = read(source);
+    if (error) {
+        console.log(error.message);
+        process.exit(1);
+    } else {
+        content = content.trim();
+        if (/^svg\s*\{/i.test(content) || !content.length) {
+            console.log(generateSVG(content));
+        } else {
+            console.log('Not a valid SVG format');
+        }
+    }
+}
+
 function handleSetBrowser(executablePath) {
    config.browserPath = executablePath;
    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
@@ -94,7 +110,7 @@ program
     .option('-o, --output <output>', 'custom filename of the generated image')
     .option('-x, --scale <scale>', 'scale factor of the generated image, defaults to 1')
     .action((source, options) => {
-        handleGenerate(source, options);
+        handleRender(source, options);
     });
 
 program.command('preview')
@@ -105,12 +121,23 @@ program.command('preview')
         handlePreview(source, options);
     });
 
+program.command('generate')
+    .description('generate code using CSS Doodle generators')
+    .action((_, cmd) => {
+        cmd.help();
+    })
+    .command('svg <source>')
+    .action((source, options, command) => {
+        handleGenerate(source);
+    });
+
 program.command('parse')
     .description('print the parsed tokens, helped to debug on development')
     .argument('<source>', 'source file to parse')
     .action((source) => {
         handleParse(source);
     });
+
 
 program.command('config')
     .description('display/set the configuration')

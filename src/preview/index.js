@@ -57,7 +57,6 @@ export function preview(sourceFile, title, options = {}) {
                     serverProcess.kill();
                     process.exit(1);
                 });
-            }
         }
 
         if (message.exit) {
