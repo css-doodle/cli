@@ -47,6 +47,7 @@ function readFromStdin() {
             }
         });
         process.stdin.on('end', () => {
+            console.log('\n');
             resolve(content);
         });
         process.stdin.on('error', reject);
