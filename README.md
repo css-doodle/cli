@@ -10,7 +10,7 @@ The css-doodle CLI for previewing and generating images.
 npm install -g @css-doodle/cli
 ```
 
-## Commands 
+## Commands
 
 ### render
 Generate an image from the CSS Doodle source file.
@@ -67,6 +67,26 @@ Use a custom browser to preview and generate images.
 $ css-doodle config browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 ```
 
+### generate
+
+Generate code using CSS Doodle generators.
+
+#### svg
+
+Generate SVG code using svg() function.
+
+```bash
+$ css-doodle generate svg code.css
+```
+
+#### polygon
+
+Generate CSS polygon() using shape() function.
+
+```bash
+$ css-doodle generate polygon code.css
+```
+
 ## Usage
 
 ```
@@ -75,14 +95,14 @@ Usage: css-doodle [options] [command]
 The css-doodle CLI for previewing and generating images
 
 Options:
-  -V, --version                  output the version number
-  -h, --help                     display help for command
+  -V, --version               output the version number
+  -h, --help                  display help for command
 
 Commands:
-  render [options] <source>      generate an image from the CSS Doodle source file
-  preview [options] <source>     open a window to preview the CSS Doodle file
-  parse <source>                 print the parsed tokens, helped to debug on development
-  config                         display/set the configuration
-  help [command]                 display help for command
+  render [options] <source>   generate an image from the CSS Doodle source file
+  preview [options] <source>  open a window to preview the CSS Doodle file
+  parse <source>              print the parsed tokens, helped to debug on development
+  config                      display/set the configuration
+  generate                    generate code using CSS Doodle generators
+  help [command]              display help for command
 ```
-
