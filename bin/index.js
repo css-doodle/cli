@@ -12,6 +12,7 @@ import {
     handleSetConfig,
     handleDisplayConfig,
     handleDisplayConfigList,
+    handleUseAction,
     getProgramName
 } from './handler.js';
 
@@ -86,6 +87,12 @@ const commandConfig = program
         .command('list')
         .description('List all configurations')
         .action(handleDisplayConfigList);
+
+program
+    .command('use')
+    .description('Shorthand to fetch and use a custom version of css-doodle')
+    .argument('<version>', 'Custom version of css-doodle to use. E.g. css-doodle@latest')
+    .action(handleUseAction);
 
 program
     .command('parse')

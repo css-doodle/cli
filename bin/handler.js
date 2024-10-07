@@ -111,6 +111,10 @@ export async function handleSetConfig(field, value) {
     }
 }
 
+export async function handleUseAction(version) {
+    handleSetConfig('css-doodle', version);
+}
+
 export function handleDisplayConfig(field) {
     console.log(config[field]);
 }
@@ -166,7 +170,13 @@ function readFromStdin() {
 
 async function fetchCssDoodleSource(version) {
     let result = '', res, error;
+
+    if (/^css\-doodle@/.test(version)) {
+        version = version.split('@')[1];
+    }
+
     const messageInvalid = `error: invalid package version '${version}'`;
+    const messageFailed = `error: failed to fetch css-doodle@${version}`;
 
     if (!(version === 'latest' || /^\d+\.\d+\.\d+$/.test(version))) {
         return {
@@ -174,13 +184,19 @@ async function fetchCssDoodleSource(version) {
         }
     }
 
-    console.log(`Fetching css-doodle@${version}`);
+    console.log(`Fetching css-doodle@${version} from esm.sh`);
 
     try {
-        res = await fetch(`https://esm.sh/css-doodle@${version}/css-doodle.min.js?raw`, { redirect:'follow' });
+        res = await fetch(`https://esm.sh/css-doodle@${version}/css-doodle.min.js?raw`, { redirect: 'follow' });
     } catch (error) {
+        try {
+            console.log(`Try jsdelivr.net`);
+            res = await fetch (`https://cdn.jsdelivr.net/npm/css-doodle@${version}/css-doodle.min.js`, { redirect: 'follow' });
+        } catch (error) {
+            return { result, error: new Error(messageFailed) }
+        }
         return {
-            result, error: new Error(`error: failed to fetch css-doodle@${version}`)
+            result, error: new Error(messageFailed)
         };
     }
 
