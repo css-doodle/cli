@@ -1,6 +1,6 @@
 # @css-doodle/cli
 
-The css-doodle CLI for previewing and generating images.
+The css-doodle command line tool for previewing and generating images.
 
 <img src="screenshot/preview.png" width="480px" alt="screenshot" />
 
@@ -16,7 +16,7 @@ npm install -g @css-doodle/cli
 Generate an image from the CSS Doodle source file.
 
 ```bash
-$ css-doodle render code.css
+cssd render code.css
 ```
 
 #### -o, --output
@@ -24,7 +24,7 @@ $ css-doodle render code.css
 Custom output filename of the generated image.
 
 ```bash
-$ css-doodle render code.css -o result.png
+cssd render code.css -o result.png
 ```
 
 #### -x, --scale
@@ -32,14 +32,14 @@ $ css-doodle render code.css -o result.png
 Scale factor of the generated image, defaults to 1.
 
 ```bash
-$ css-doodle render code.css -x 4
+cssd render code.css -x 4
 ```
 
 ### preview
 Open a window to preview the CSS Doodle file.
 
 ```bash
-$ css-doodle preview code.css
+cssd preview code.css
 ```
 
 #### --fullscreen
@@ -47,7 +47,7 @@ $ css-doodle preview code.css
 Open the preview in fullscreen mode.
 
 ```bash
-$ css-doodle preview code.css --fullscreen
+cssd preview code.css --fullscreen
 ```
 
 
@@ -56,7 +56,7 @@ $ css-doodle preview code.css --fullscreen
 Display/set the configuration.
 
 ```bash
-$ css-doodle config
+cssd config
 ```
 
 #### browserPath
@@ -64,7 +64,7 @@ $ css-doodle config
 Use a custom browser to preview and generate images.
 
 ```bash
-$ css-doodle config browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+cssd config browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 ```
 
 ### generate
@@ -76,7 +76,7 @@ Generate code using CSS Doodle generators.
 Generate SVG code using svg() function.
 
 ```bash
-$ css-doodle generate svg code.css
+cssd generate svg code.css
 ```
 
 #### polygon
@@ -84,7 +84,7 @@ $ css-doodle generate svg code.css
 Generate CSS polygon() using shape() function.
 
 ```bash
-$ css-doodle generate polygon code.css
+cssd generate polygon code.css
 ```
 
 ## Usage

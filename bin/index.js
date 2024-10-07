@@ -142,15 +142,20 @@ function handleDisplayConfig(field) {
     }
 }
 
+function getProgramName() {
+    let name = path.basename(process.argv[1]);
+    return pkg.bin[name] ? name : 'cssd';
+}
+
 program
-    .name('css-doodle')
+    .name(getProgramName())
     .description(pkg.description)
     .version(pkg.version);
 
 program
     .command('render')
-    .description('generate an image from the CSS Doodle source file')
-    .argument('[source]', 'the CSS Doodle source file used to generate the image')
+    .description('generate an image from css-doodle file')
+    .argument('[source]', 'css-doolde source file used to generate the image')
     .option('-o, --output <output>', 'custom filename of the generated image')
     .option('-x, --scale <scale>', 'scale factor of the generated image, defaults to 1')
     .action((source, options) => {
@@ -158,8 +163,8 @@ program
     });
 
 program.command('preview')
-    .description('open a window to preview the CSS Doodle file')
-    .argument('<source>', 'source file to preview')
+    .description('open a window to preview the css-doodle file')
+    .argument('<source>', 'css-doodle source file to preview')
     .option('--fullscreen', 'open the preview in fullscreen mode')
     .action((source, options) => {
         handlePreview(source, options);
@@ -167,13 +172,13 @@ program.command('preview')
 
 program.command('parse')
     .description('print the parsed tokens, helped to debug on development')
-    .argument('[source]', 'source file to parse')
+    .argument('[source]', 'css-doodle source file to parse')
     .action((source) => {
         handleParse(source);
     });
 
 program.command('config')
-    .description('display/set the configuration')
+    .description('display/set the configurations')
     .action(() => {
         handleDisplayConfig();
     })
@@ -186,23 +191,26 @@ program.command('config')
         }
     });
 
-const commandGenerate = program.command('generate')
-    .description('generate code using CSS Doodle generators')
+const commandGenerate =
+    program.command('generate')
+    .description('generate code using css-doodle generators')
     .action((_, cmd) => {
         cmd.help();
     });
 
-    commandGenerate.command('svg [source]')
-        .description('generate SVG code using svg() function')
-        .action((source) => {
-            handleGenerateSVG(source);
-        })
+commandGenerate
+    .command('svg [source]')
+    .description('generate SVG code with svg() function')
+    .action((source) => {
+        handleGenerateSVG(source);
+    });
 
-    commandGenerate.command('polygon [source]')
-        .description('generate CSS polygon() using shape() function')
-        .action(source => {
-            handleGenerateShape(source);
-        });
+commandGenerate
+    .command('polygon [source]')
+    .description('generate CSS polygon() with shape() function')
+    .action(source => {
+        handleGenerateShape(source);
+    });
 
 if (process.argv.length <= 2) {
     program.help();

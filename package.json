@@ -1,9 +1,10 @@
 {
   "name": "@css-doodle/cli",
   "version": "1.1.0",
-  "description": "The css-doodle CLI for previewing and generating images",
+  "description": "The css-doodle command line tool for previewing and generating images",
   "bin": {
-    "css-doodle": "bin/index.js"
+    "css-doodle": "bin/index.js",
+    "cssd": "bin/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
