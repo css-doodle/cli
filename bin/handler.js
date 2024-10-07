@@ -35,13 +35,13 @@ export async function handleRender(source, options) {
 export async function handleParse(source) {
     let { content, error } = await read(source);
     if (error) {
-        console.log(error.message);
+        console.warn(error.message);
         process.exit(1);
     } else {
         try {
             console.log(JSON.stringify(parse(content), null, 2));
         }  catch (e) {
-            console.log(e.message);
+            console.error(e.message);
             process.exit(1);
         }
     }
@@ -61,14 +61,14 @@ export async function handlePreview(source, options) {
 export async function handleGenerateSVG(source) {
     let { content, error } = await read(source);
     if (error) {
-        console.log(error.message);
+        console.error(error.message);
         process.exit(1);
     } else {
         content = content.trim();
         if (/^svg\s*\{/i.test(content) || !content.length) {
             console.log(generateSVG(content));
         } else {
-            console.log('Not a valid SVG format');
+            console.warn('warn: invalid SVG format');
         }
     }
 }
@@ -83,13 +83,17 @@ export async function handleGenerateShape(source) {
     }
 }
 
-export function handleSetConfig(field, value) {
-   config[field] = value;
-   if (value === '') {
-       delete config[field];
-   }
-   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-   console.log('OK')
+export async function handleSetConfig(field, value) {
+    config[field] = value;
+    if (value === '') {
+        delete config[field];
+    }
+    try {
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+        console.log('ok');
+    } catch (e) {
+        console.error('error: failed to write config file');
+    }
 }
 
 export function handleDisplayConfig(field) {
@@ -109,9 +113,9 @@ async function read(path) {
     let content = '';
     let error = null;
     if (path === undefined) {
-        console.log('No source file specified, reading from stdin...');
+        console.log('No source file specified, reading from stdin:');
         let key = os.platform() === 'win32' ? 'CTRL+Z' : 'CTRL+D';
-        console.log(`Press ${key} to finish input.\n`);
+        console.log(`(Press ${key} to finish input.)\n`);
         try {
             content = await readFromStdin();
         } catch (e) {

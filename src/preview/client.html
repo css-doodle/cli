@@ -52,7 +52,7 @@
             try {
                 input = JSON.parse(e.data);
             } catch(e) {
-                console.error(e);
+                console.error(e.message);
             }
             let { data, type } = input;
             switch (type) {

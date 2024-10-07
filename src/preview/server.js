@@ -59,8 +59,8 @@ wsServer.on('connection', (ws, req) => {
         data: read(sourceFile)
     }));
 
-    ws.on('error', err => {
-        console.error(err);
+    ws.on('error', e => {
+        console.error(e.message);
     });
 
     ws.on('message', (e) => {
@@ -68,7 +68,7 @@ wsServer.on('connection', (ws, req) => {
         try {
             input = JSON.parse(e);
         } catch(e) {
-            console.error(e);
+            console.error(e.message);
         }
         if (input.type === 'ping') {
             clearTimeout(timers[query.get('instance')]);

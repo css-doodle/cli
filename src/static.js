@@ -46,8 +46,8 @@ export function getCssDoodleLib() {
         if (fs.existsSync(libPath)) {
             return fs.readFileSync(libPath, 'utf8');
         } else {
-            console.warn(`[warn] css-doodle not found: ${libPath}. Use default css-doodle instead.`);
-            console.info('[info] Please check it with `config` command.\n');
+            console.warn(`warn: css-doodle not found: ${libPath}. Use default css-doodle instead.`);
+            console.info('Please check it with `config` command.\n');
         }
     }
     return read('../node_modules/css-doodle/css-doodle.min.js');
@@ -62,8 +62,8 @@ export function getBrowserPath() {
         if (fs.existsSync(browserPath)) {
             return browserPath;
         } else {
-            console.warn(`[warn] Browser not found: ${browserPath}. Use default browser instead.`);
-            console.info('[info] Please check it with `config` command.\n');
+            console.warn(`warn: browser not found: ${browserPath}. Use default browser instead.`);
+            console.info('Please check it with `config` command.\n');
         }
     }
     return '';
