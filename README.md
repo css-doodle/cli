@@ -91,12 +91,12 @@ cssd config list
 cssd config set browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 
 # reset
-cssd config reset browserPath ''
+cssd config set browserPath ''
 
 # get the value
 cssd config get browserPath
 
-# set the version of css-doodle
+# download and use a custom version of css-doodle
 cssd config set css-doodle 0.40.6
 ```
 
