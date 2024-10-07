@@ -26,6 +26,11 @@ program
             return `${pkg.description}. (${pkg.version})\n`;
         }
     })
+    .addHelpText('afterAll', program => {
+        if (!program.command.parent) {
+            return `\nLearn more: https://css-doodle.com`
+        }
+    })
     .configureHelp({
         subcommandTerm(cmd) {
             return cmd.name()
