@@ -7,9 +7,14 @@ const isLinux = os.platform() === 'linux';
 const root = dirname(fileURLToPath(import.meta.url));
 const configDir = join(os.homedir(), '.css-doodle');
 const configFilePath = join(configDir, 'config.json');
+const configDownloadDir = join(configDir, 'download');
 
 if (!fs.existsSync(configDir)) {
     fs.mkdirSync(configDir);
+}
+
+if (!fs.existsSync(configDownloadDir)) {
+    fs.mkdirSync(configDownloadDir);
 }
 
 if (!fs.existsSync(configFilePath)) {
@@ -71,6 +76,8 @@ export function getBrowserPath() {
 
 export const config = JSON.parse(fs.readFileSync(configFilePath), 'utf8');
 export const configPath = configFilePath;
+export const configDownloadPath = configDownloadDir;
+
 export const pkg = JSON.parse(read('../package.json'));
 export const previewClient = read('./preview/client.html');
 export const previewServerPath = join(root, './preview/server.js');

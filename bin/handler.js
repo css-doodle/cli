@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 
-import { pkg, config, configPath } from '../src/static.js';
+import { pkg, config, configPath, configDownloadPath } from '../src/static.js'
 import { parse } from '../src/parse.js';
 import { preview } from '../src/preview/index.js';
 import { render } from '../src/render.js';
@@ -20,7 +20,6 @@ export async function handleRender(source, options) {
             let extname = path.extname(basename);
             title = extname ? basename.split(extname)[0] : basename;
         }
-
         let output = await render(content, {
             title,
             output: options.output,
@@ -84,10 +83,26 @@ export async function handleGenerateShape(source) {
 }
 
 export async function handleSetConfig(field, value) {
-    config[field] = value;
+    if (field === 'css-doodle') {
+        const { result, error } = await fetchCssDoodleSource(value);
+        if (error) {
+            return console.error(error.message);
+        }
+        try {
+            const libPath = path.join(configDownloadPath, `css-doodle-${value}.js`);
+            fs.writeFileSync(libPath, result);
+            config[field] = libPath;
+        } catch (e) {
+            return console.error(`error: failed to fetch css-doodle@${value}`);
+        }
+    } else {
+        config[field] = value;
+    }
+
     if (value === '') {
         delete config[field];
     }
+
     try {
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
         console.log('ok');
@@ -149,3 +164,35 @@ function readFromStdin() {
     });
 }
 
+async function fetchCssDoodleSource(version) {
+    let result = '', res, error;
+    const messageInvalid = `error: invalid package version '${version}'`;
+
+    if (!(version === 'latest' || /^\d+\.\d+\.\d+$/.test(version))) {
+        return {
+            result, error: new Error(messageInvalid)
+        }
+    }
+
+    console.log(`Fetching css-doodle@${version}`);
+
+    try {
+        res = await fetch(`https://esm.sh/css-doodle@${version}/css-doodle.min.js?raw`, { redirect:'follow' });
+    } catch (error) {
+        return {
+            result, error: new Error(`error: failed to fetch css-doodle@${version}`)
+        };
+    }
+
+    const source = Buffer.from(await res.arrayBuffer()).toString();
+
+    if (/^invalid|ERR_PNPM_NO_MATCHING_VERSION/i.test(source)) {
+        return {
+            result, error: new Error(messageInvalid)
+        }
+    }
+
+    return {
+        result: source, error: null
+    }
+}
