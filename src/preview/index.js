@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process';
 
 import puppeteer from 'puppeteer';
 
-import { previewServerPath, defaultAppArgs, config } from '../static.js';
+import { previewServerPath, getBrowserPath, defaultAppArgs, config } from '../static.js';
 
 const SIZE = '600,628';
 
@@ -47,13 +47,14 @@ export function preview(sourceFile, title, options = {}) {
                 ],
             };
 
-            if (config.browserPath) {
-                settings.executablePath = config.browserPath;
+            let browserPath = getBrowserPath();
+            if (browserPath) {
+                settings.executablePath = browserPath;
             }
 
             puppeteer.launch(settings)
                 .catch(e => {
-                    console.log(e.message);
+                    console.error(e.message);
                     serverProcess.kill();
                     process.exit(1);
                 });

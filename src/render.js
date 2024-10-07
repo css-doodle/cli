@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import { config, cssDoodleLib, defaultAppArgs } from './static.js';
+import { config, getCssDoodleLib, getBrowserPath, defaultAppArgs } from './static.js';
 
 export async function render(code, options = {}) {
     options.selector ??= 'css-doodle';
@@ -8,14 +8,15 @@ export async function render(code, options = {}) {
         args: defaultAppArgs
     };
 
-    if (config.browserPath) {
-        settings.executablePath = config.browserPath;
+    let browserPath = getBrowserPath();
+    if (browserPath) {
+        settings.executablePath = browserPath;
     }
 
     const browser = await puppeteer.launch(settings);
 
     const page = await browser.newPage();
-    await page.setContent(buildHTML(code, cssDoodleLib, options), { waitUntil: 'networkidle0', timeout: 5000 });
+    await page.setContent(buildHTML(code, getCssDoodleLib(), options), { waitUntil: 'networkidle0', timeout: 5000 });
 
     const data = await page.$eval(options.selector, el => {
         return {

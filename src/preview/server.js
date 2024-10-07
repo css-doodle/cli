@@ -2,9 +2,10 @@ import { readFileSync } from 'node:fs';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import watch from 'node-watch';
-import { previewClient, cssDoodleLib } from '../static.js';
+import { previewClient, getCssDoodleLib } from '../static.js';
 
 const sourceFile = process.argv[2];
+const cssDoodleLib = getCssDoodleLib();
 const timers = {};
 
 if (!sourceFile) {
