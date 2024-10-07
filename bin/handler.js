@@ -169,7 +169,7 @@ function readFromStdin() {
 }
 
 async function fetchCssDoodleSource(version) {
-    let result = '', res, error;
+    let result = '', error;
 
     if (/^css\-doodle@/.test(version)) {
         version = version.split('@')[1];
@@ -184,31 +184,28 @@ async function fetchCssDoodleSource(version) {
         }
     }
 
-    console.log(`Fetching css-doodle@${version} from esm.sh`);
-
     try {
-        res = await fetch(`https://esm.sh/css-doodle@${version}/css-doodle.min.js?raw`, { redirect: 'follow' });
-    } catch (error) {
+        console.log(`Fetching css-doodle@${version} from esm.sh.`);
+        result = await fetchResource(`https://esm.sh/css-doodle@${version}/css-doodle.min.js?raw`);
+    } catch (e) {
         try {
-            console.log(`Try jsdelivr.net`);
-            res = await fetch (`https://cdn.jsdelivr.net/npm/css-doodle@${version}/css-doodle.min.js`, { redirect: 'follow' });
-        } catch (error) {
-            return { result, error: new Error(messageFailed) }
+            console.log(`Try jsdelivr..`);
+            result = await fetchResource(`https://cdn.jsdelivr.net/npm/css-doodle@${version}/css-doodle.min.js);`);
+        } catch (e) {
+            error = new Error(messageFailed);
         }
-        return {
-            result, error: new Error(messageFailed)
-        };
     }
 
-    const source = Buffer.from(await res.arrayBuffer()).toString();
-
-    if (/^invalid|ERR_PNPM_NO_MATCHING_VERSION/i.test(source)) {
-        return {
-            result, error: new Error(messageInvalid)
-        }
+    if (/^invalid|ERR_PNPM_NO_MATCHING_VERSION/i.test(result)) {
+        error = new Error(messageInvalid)
     }
 
     return {
-        result: source, error: null
+        result, error
     }
+}
+
+async function fetchResource(url) {
+    let res = await fetch(url, { redirect: 'follow' });
+    return Buffer.from(await res.arrayBuffer()).toString();
 }
