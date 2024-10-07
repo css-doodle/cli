@@ -1,6 +1,6 @@
 # @css-doodle/cli
 
-The css-doodle command line tool for previewing and generating images.
+A command-line tool for css-doodle to preview and generate images.
 
 <img src="screenshot/preview.png" width="480px" alt="screenshot" />
 
@@ -10,7 +10,7 @@ The css-doodle command line tool for previewing and generating images.
 npm install -g @css-doodle/cli
 ```
 
-After installation, you can use the `css-doodle` or `cssd` command in the terminal.
+After installation, you can use command `css-doodle` or `cssd` in the terminal.
 
 ## Usage
 
