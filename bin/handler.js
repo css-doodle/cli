@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
+import { stdin } from 'node:process';
 
 import { pkg, config, configPath, configDownloadPath } from '../src/static.js'
 import { parse } from '../src/parse.js';
@@ -141,6 +142,7 @@ async function read(path) {
         console.log(`(Press ${key} to finish input.)\n`);
         try {
             content = await readFromStdin();
+            console.log('\n');
         } catch (e) {
             error = e;
         }
@@ -166,18 +168,10 @@ async function read(path) {
 function readFromStdin() {
     return new Promise((resolve, reject) => {
         let content = '';
-        process.stdin.setEncoding('utf8');
-        process.stdin.on('readable', () => {
-            let chunk;
-            while ((chunk = process.stdin.read())) {
-                content += chunk;
-            }
-        });
-        process.stdin.on('end', () => {
-            console.log('\n');
-            resolve(content);
-        });
-        process.stdin.on('error', reject);
+        stdin.setEncoding('utf8');
+        stdin.on('data', c => content += c);
+        stdin.on('end', () => resolve(content));
+        stdin.on('error', reject);
     });
 }
 
