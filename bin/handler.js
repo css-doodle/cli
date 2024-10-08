@@ -11,7 +11,7 @@ import { generateSVG, generateShape } from '../src/generate.js';
 export async function handleRender(source, options) {
     let { content, error } = await read(source);
     if (error) {
-        console.log(error.message);
+        console.error(error.message);
         process.exit(1);
     } else {
         let title = 'image';
@@ -34,7 +34,7 @@ export async function handleRender(source, options) {
 export async function handleParse(source) {
     let { content, error } = await read(source);
     if (error) {
-        console.warn(error.message);
+        console.error(error.message);
         process.exit(1);
     } else {
         try {
@@ -49,7 +49,7 @@ export async function handleParse(source) {
 export async function handlePreview(source, options) {
     let { content, error } = await read(source);
     if (error) {
-        console.log(error.message);
+        console.error(error.message);
         process.exit(1);
     } else {
         let title = path.basename(source);
@@ -67,7 +67,7 @@ export async function handleGenerateSVG(source) {
         if (/^svg\s*\{/i.test(content) || !content.length) {
             console.log(generateSVG(content));
         } else {
-            console.warn('warn: invalid SVG format');
+            console.error('error: invalid SVG format');
         }
     }
 }
@@ -75,7 +75,7 @@ export async function handleGenerateSVG(source) {
 export async function handleGenerateShape(source) {
     let { content, error } = await read(source);
     if (error) {
-        console.log(error.message);
+        console.error(error.message);
         process.exit(1);
     } else {
         console.log(generateShape(content));
@@ -151,6 +151,15 @@ async function read(path) {
             error = e;
         }
     }
+
+    if (content) {
+        content = content.trim();
+    }
+
+    if (!error && !content) {
+        error = new Error('error: empty input');
+    }
+
     return { content, error };
 }
 
