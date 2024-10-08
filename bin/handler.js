@@ -84,16 +84,20 @@ export async function handleGenerateShape(source) {
 
 export async function handleSetConfig(field, value) {
     if (field === 'css-doodle') {
-        const { result, error } = await fetchCssDoodleSource(value);
-        if (error) {
-            return console.error(error.message);
-        }
-        try {
-            const libPath = path.join(configDownloadPath, `css-doodle-${value}.js`);
-            fs.writeFileSync(libPath, result);
-            config[field] = libPath;
-        } catch (e) {
-            return console.error(`error: failed to fetch css-doodle@${value}`);
+        if (fs.existsSync(value)) {
+            config[field] = path.resolve(value);
+        } else {
+            const { result, error } = await fetchCssDoodleSource(value);
+            if (error) {
+                return console.error(error.message);
+            }
+            try {
+                const libPath = path.join(configDownloadPath, `css-doodle-${value}.js`);
+                fs.writeFileSync(libPath, result);
+                config[field] = libPath;
+            } catch (e) {
+                return console.error(`error: failed to fetch css-doodle@${value}`);
+            }
         }
     } else {
         config[field] = value;

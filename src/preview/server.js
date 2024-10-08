@@ -1,7 +1,9 @@
 import { readFileSync } from 'node:fs';
-import { createServer } from 'http';
+import { createServer } from 'node:http';
+
 import { WebSocketServer } from 'ws';
 import watch from 'node-watch';
+
 import { previewClient, getCssDoodleLib } from '../static.js';
 
 const sourceFile = process.argv[2];
