@@ -28,6 +28,7 @@ Commands:
   config         Display/set the configurations
   use            Shorthand to fetch and use a custom version of css-doodle
   parse          Print the parsed tokens, helped to debug on development
+  upgrade        Upgrade CLI to the latest version
 ```
 
 ## Commands
@@ -37,7 +38,7 @@ Generate an image from the css-doodle source file. It'll read from STDIN if no s
 
 * `-o, --output`: Custom output filename of the generated image.
 * `-x, --scale`: Scale factor of the generated image, defaults to 1.
- 
+
 ```bash
 cssd render
 cssd render code.css
@@ -80,7 +81,7 @@ Display/set the configurations in key/value pairs. Currently only two configurat
 
 Recognizable configurations:
 
-* `browserPath`: The path to the browser executable.  
+* `browserPath`: The path to the browser executable.
 * `css-doodle`: The path to the css-doodle to use.
 
 ```bash
@@ -101,7 +102,7 @@ cssd config set css-doodle 0.40.6
 ```
 
 ### use
-Shorthand of `cssd config set css-doodle <version>`. 
+Shorthand of `cssd config set css-doodle <version>`.
 
 ```bash
 cssd use css-doodle@0.40.6
@@ -109,4 +110,11 @@ cssd use css-doodle@0.40.6
 # or just version
 cssd use 0.40.6
 cssd use latest
+```
+
+### upgrade
+Upgrade CLI to the latest version.
+
+```bash
+cssd upgrade
 ```
