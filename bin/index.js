@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { pkg } from '../src/static.js';
+import { pkg } from '../lib/static.js';
 
 import {
     handleRender,
@@ -15,7 +15,7 @@ import {
     handleUseAction,
     handleUpgrade,
     getProgramName
-} from './handler.js';
+} from '../lib/handler.js';
 
 const program = new Command();
 
