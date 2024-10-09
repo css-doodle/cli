@@ -49,7 +49,7 @@ program
 program
     .command('preview')
     .description('Open a window to preview the css-doodle file')
-    .argument('<source>', 'css-doodle source file to preview')
+    .argument('[source]', 'css-doodle source file to preview')
     .option('--fullscreen', 'open the preview in fullscreen mode')
     .action(handlePreview);
 

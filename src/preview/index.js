@@ -1,4 +1,7 @@
 import crypto from 'node:crypto';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 
 import puppeteer from 'puppeteer';
@@ -8,6 +11,17 @@ import { previewServerPath, getBrowserPath, defaultAppArgs, config } from '../st
 const SIZE = '600,628';
 
 export function preview(sourceFile, title, options = {}) {
+    let source = sourceFile;
+    if (options.fromStdin) {
+        sourceFile = join(tmpdir(), crypto.randomUUID());
+        try {
+            writeFileSync(sourceFile, source);
+        } catch (e) {
+            console.error('error: failed to create a temporary file for preview.');
+            process.exit(1);
+        }
+    }
+
     const serverProcess = spawn('node', [previewServerPath, sourceFile], {
         detached: true,
         stdio: ['pipe', 'pipe', 'pipe', 'ipc']

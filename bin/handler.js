@@ -53,8 +53,13 @@ export async function handlePreview(source, options) {
         console.error(error.message);
         process.exit(1);
     } else {
-        let title = path.basename(source);
-        preview(source, title, options);
+        if (source === undefined) {
+            options.fromStdin = true;
+            preview(content, 'css-doodle', options);
+        } else {
+            let title = path.basename(source);
+            preview(source, title, options);
+        }
     }
 }
 
