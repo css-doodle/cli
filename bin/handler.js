@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { stdin } from 'node:process';
+import { execSync } from 'node:child_process';
 
 import { pkg, config, configPath, configDownloadPath } from '../src/static.js'
 import { parse } from '../src/parse.js';
@@ -126,6 +127,11 @@ export function handleDisplayConfigList() {
 export function getProgramName() {
     let name = path.basename(process.argv[1]);
     return pkg.bin[name] ? name : 'cssd';
+}
+
+export function handleUpgrade() {
+    console.log('Upgrading CLI...');
+    execSync('npm update -g @css-doodle/cli', { stdio: 'inherit' });
 }
 
 async function read(path) {

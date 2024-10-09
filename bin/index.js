@@ -13,6 +13,7 @@ import {
     handleDisplayConfig,
     handleDisplayConfigList,
     handleUseAction,
+    handleUpgrade,
     getProgramName
 } from './handler.js';
 
@@ -99,6 +100,11 @@ program
     .description('Print the parsed tokens, helped to debug on development')
     .argument('[source]', 'css-doodle source file to parse')
     .action(handleParse);
+
+program
+    .command('upgrade')
+    .description('Upgrade CLI to the latest version')
+    .action(handleUpgrade);
 
 if (process.argv.length <= 2) {
     program.help();
