@@ -12,80 +12,70 @@ import { generateSVG, generateShape } from '../src/generate.js';
 export async function handleRender(source, options) {
     let { content, error } = await read(source);
     if (error) {
-        console.error(error.message);
-        process.exit(1);
-    } else {
-        let title = 'image';
-        if (source) {
-            let basename = path.basename(source);
-            let extname = path.extname(basename);
-            title = extname ? basename.split(extname)[0] : basename;
-        }
-        let output = await render(content, {
-            title,
-            output: options.output,
-            scale: options.scale
-        });
-        if (output) {
-            console.log(`Saved to ${output}.`);
-        }
+        return console.error(error.message);
+    }
+    let title = 'image';
+    if (source) {
+        let basename = path.basename(source);
+        let extname = path.extname(basename);
+        title = extname ? basename.split(extname)[0] : basename;
+    }
+    let output = await render(content, {
+        title,
+        output: options.output,
+        scale: options.scale
+    });
+    if (output) {
+        console.log(`Saved to ${output}.`);
     }
 }
 
 export async function handleParse(source) {
     let { content, error } = await read(source);
     if (error) {
-        console.error(error.message);
+        return console.error(error.message);
+    }
+    try {
+        console.log(JSON.stringify(parse(content), null, 2));
+    }  catch (e) {
+        console.error(e.message);
         process.exit(1);
-    } else {
-        try {
-            console.log(JSON.stringify(parse(content), null, 2));
-        }  catch (e) {
-            console.error(e.message);
-            process.exit(1);
-        }
     }
 }
 
 export async function handlePreview(source, options) {
     let { content, error } = await read(source);
     if (error) {
-        console.error(error.message);
-        process.exit(1);
+        return console.error(error.message);
+    }
+    if (source === undefined) {
+        options.fromStdin = true;
+        preview(content, 'css-doodle', options);
     } else {
-        if (source === undefined) {
-            options.fromStdin = true;
-            preview(content, 'css-doodle', options);
-        } else {
-            let title = path.basename(source);
-            preview(source, title, options);
-        }
+        let title = path.basename(source);
+        preview(source, title, options);
     }
 }
 
 export async function handleGenerateSVG(source) {
     let { content, error } = await read(source);
     if (error) {
-        console.error(error.message);
-        process.exit(1);
+        return console.error(error.message);
+    }
+    content = content.trim();
+    if (/^svg\s*\{/i.test(content) || !content.length) {
+        console.log(generateSVG(content));
     } else {
-        content = content.trim();
-        if (/^svg\s*\{/i.test(content) || !content.length) {
-            console.log(generateSVG(content));
-        } else {
-            console.error('error: invalid SVG format');
-        }
+        console.error('error: invalid SVG format');
     }
 }
 
 export async function handleGenerateShape(source) {
     let { content, error } = await read(source);
     if (error) {
-        console.error(error.message);
-        process.exit(1);
-    } else {
-        console.log(generateShape(content));
+        return console.error(error.message);
     }
+    console.log(generateShape(content));
 }
 
 export async function handleSetConfig(field, value) {

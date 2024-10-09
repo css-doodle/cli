@@ -16,7 +16,10 @@ export async function render(code, options = {}) {
     const browser = await puppeteer.launch(settings);
 
     const page = await browser.newPage();
-    await page.setContent(buildHTML(code, getCssDoodleLib(), options), { waitUntil: 'networkidle0', timeout: 5000 });
+    await page.setContent(buildHTML(code, getCssDoodleLib(), options), {
+        waitUntil: 'networkidle0',
+        timeout: 10 * 1000
+    });
 
     const data = await page.$eval(options.selector, el => {
         return {
@@ -42,7 +45,7 @@ function buildHTML(code, cssDoodleLib, options = {}) {
             <style>* { padding: 0; margin: 0 }</style>
             <script>${cssDoodleLib}</script>
         </head>
-        <body data-selector="${options.selector ?? ''}">
+        <body data-selector="${options.selector}">
             <css-doodle>${code}</css-doodle>
         </body>
     </html>`;
