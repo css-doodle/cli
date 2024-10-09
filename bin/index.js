@@ -14,13 +14,12 @@ import {
     handleDisplayConfigList,
     handleUseAction,
     handleUpgrade,
-    getProgramName
 } from '../lib/handler.js';
 
 const program = new Command();
 
 program
-    .name(getProgramName())
+    .name(pkg.programName)
     .version(pkg.version)
     .addHelpCommand(false)
     .addHelpText('beforeAll', program => {
