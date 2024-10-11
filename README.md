@@ -23,8 +23,8 @@ Options:
   -h, --help     display help for command
 
 Commands:
-  render         Generate an image from css|cssd|html file or from codepen links
-  preview        Open a window to preview css|cssd file
+  render         Generate an image from css|cssd|html file or from CodePen link
+  preview        Open a window to preview the css|cssd file
   generate       Generate code using css-doodle generators
   config         Display/set the configurations
   use            Shorthand to fetch and use a custom version of css-doodle
