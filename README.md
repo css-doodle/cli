@@ -10,7 +10,8 @@ A command-line tool for css-doodle to preview and generate images.
 npm install -g @css-doodle/cli
 ```
 
-After installation, you can use command `css-doodle` or `cssd` in the terminal.
+>[!NOTE]
+> After installation, you can use `cssd` or `css-doodle` command in the terminal.
 
 ## Usage
 
@@ -22,8 +23,8 @@ Options:
   -h, --help     display help for command
 
 Commands:
-  render         Generate an image from css-doodle file
-  preview        Open a window to preview the css-doodle file
+  render         Generate an image from css|cssd|html file or from codepen links
+  preview        Open a window to preview css|cssd file
   generate       Generate code using css-doodle generators
   config         Display/set the configurations
   use            Shorthand to fetch and use a custom version of css-doodle
@@ -34,20 +35,23 @@ Commands:
 ## Commands
 
 ### render
-Generate an image from the css-doodle source file. It'll read from STDIN if no source file specified.
+Generate an image from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file or CodePen link.
 
 * `-o, --output`: Custom output filename of the generated image.
 * `-x, --scale`: Scale factor of the generated image, defaults to 1.
+* `-s, --selector`: CSS selector to target the rendered node, defaults to `css-doodle`.
+* `-d, --delay`: Delay in milliseconds after the image is rendered.
 
 ```bash
 cssd render
 cssd render code.css
 cssd render code.css -o result.png
 cssd render code.css -x 4
+cssd render https://codepen.io/yuanchuan/pen/MQEeJo
 ```
 
 ### preview
-Open a window to preview the css-doodle file.
+Open a window to preview the css-doodle source file. The source file can be either `.css` or `.cssd`.
 
 * `--fullscreen`: Open in fullscreen mode.
 

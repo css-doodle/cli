@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <title>css-doodle</title>
     <style>
-        html, body {
+        html, body, #container {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
         }
-        body {
+        body, #container {
             display: grid;
             place-items: center;
             background: #282828;
@@ -66,7 +66,7 @@
                             updateWindow();
                         });
 
-                        doodle.innerHTML = `<style>${data}</style>`;
+                        doodle.innerHTML = `<template>${data}</template>`;
                         doodle.setAttribute('click-to-update', '');
                         container.appendChild(doodle);
                     }
@@ -77,7 +77,6 @@
         function clamp(value, min, max) {
             return Math.min(Math.max(value, min), max);
         }
-
 
         function updateWindow() {
             let { width, height }  = doodle.getBoundingClientRect();

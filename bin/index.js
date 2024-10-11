@@ -40,15 +40,17 @@ program
 
 program
     .command('render')
-    .description('Generate an image from css-doodle file')
+    .description('Generate an image from css|cssd|html file or from CodePen link')
     .argument('[source]', 'css-doolde source file used to generate the image')
     .option('-o, --output <output>', 'Custom filename of the generated image')
-    .option('-x, --scale <scale>', 'Scale factor of the generated image, defaults to 1')
+    .option('-x, --scale <scale>', 'Scale factor of the generated image, defaults to `2`')
+    .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`')
+    .option('-d, --delay <delay>', 'Delay in milliseconds after the image is rendered')
     .action(handleRender);
 
 program
     .command('preview')
-    .description('Open a window to preview the css-doodle file')
+    .description('Open a window to preview the css|cssd file')
     .argument('[source]', 'css-doodle source file to preview')
     .option('--fullscreen', 'open the preview in fullscreen mode')
     .action(handlePreview);
