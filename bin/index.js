@@ -48,6 +48,7 @@ program
     .option('-d, --delay <delay>', 'Delay after the image is rendered, e.g, `2s`')
     .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s')
     .option('-ws, --window-size <size>', 'The size of the rendered window, e.g, `800x600`, defaults to `1600x900`')
+    .option('--mp4', 'Generate an mp4 video')
     .action(handleRender);
 
 program
