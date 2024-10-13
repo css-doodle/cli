@@ -42,7 +42,7 @@ Generate an image from the css-doodle source file. The source file can be a `.cs
 * `-s, --selector`: CSS selector to target the rendered node, defaults to `css-doodle`.
 * `-d, --delay`: Delay after the image is rendered, e.g, `2s`.
 * `-t, --time`: Record screen for a specific time, e.g, `10s`.
-* `-ws, --window-size`: `The size of the rendered window, e.g, `800x600`, defaults to `1600x900`.
+* `-ws, --window-size`: The size of the rendered window, e.g, `800x600`, defaults to `1600x900`.
 * `--mp4`: Transform the generated `webm` file into `mp4`.
 
 ```bash
