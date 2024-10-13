@@ -40,7 +40,8 @@ Generate an image from the css-doodle source file. The source file can be a `.cs
 * `-o, --output`: Custom output filename of the generated image.
 * `-x, --scale`: Scale factor of the generated image, defaults to 1.
 * `-s, --selector`: CSS selector to target the rendered node, defaults to `css-doodle`.
-* `-d, --delay`: Delay in milliseconds after the image is rendered.
+* `-d, --delay`: Delay after the image is rendered, e.g, `2s`.
+* `-t, --time`: Record screen for a specific time, e.g, `10s.
 
 ```bash
 cssd render
@@ -48,6 +49,12 @@ cssd render code.css
 cssd render code.css -o result.png
 cssd render code.css -x 4
 cssd render https://codepen.io/yuanchuan/pen/MQEeJo
+```
+
+Screen recording:
+
+```bash
+cssd render -t 10s
 ```
 
 ### preview
