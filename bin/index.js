@@ -45,7 +45,8 @@ program
     .option('-o, --output <output>', 'Custom filename of the generated image')
     .option('-x, --scale <scale>', 'Scale factor of the generated image, defaults to `2`')
     .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`')
-    .option('-d, --delay <delay>', 'Delay in milliseconds after the image is rendered')
+    .option('-d, --delay <delay>', 'Delay after the image is rendered, e.g, `2s`')
+    .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s')
     .action(handleRender);
 
 program
