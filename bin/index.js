@@ -46,9 +46,9 @@ program
     .option('-x, --scale <scale>', 'Scale factor of the generated image, defaults to `2`')
     .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`')
     .option('-d, --delay <delay>', 'Delay after the image is rendered, e.g, `2s`')
-    .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s')
+    .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s`')
     .option('-ws, --window-size <size>', 'The size of the rendered window, e.g, `800x600`, defaults to `1600x900`')
-    .option('--mp4', 'Generate an mp4 video')
+    .option('--mp4', 'Transform the generated `webm` file into `mp4`')
     .action(handleRender);
 
 program

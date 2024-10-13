@@ -41,7 +41,9 @@ Generate an image from the css-doodle source file. The source file can be a `.cs
 * `-x, --scale`: Scale factor of the generated image, defaults to 1.
 * `-s, --selector`: CSS selector to target the rendered node, defaults to `css-doodle`.
 * `-d, --delay`: Delay after the image is rendered, e.g, `2s`.
-* `-t, --time`: Record screen for a specific time, e.g, `10s.
+* `-t, --time`: Record screen for a specific time, e.g, `10s`.
+* `-ws, --window-size`: `The size of the rendered window, e.g, `800x600`, defaults to `1600x900`.
+* `--mp4`: Transform the generated `webm` file into `mp4`.
 
 ```bash
 cssd render
@@ -55,6 +57,13 @@ Screen recording:
 
 ```bash
 cssd render -t 10s
+```
+
+By default the generated video is in `webm` format, you can transform it automatically into `mp4` by adding `--mp4` option, or use an output filename with `.mp4` extension.
+
+```bash
+cssd render -t 10s --mp4
+cssd render -o result.mp4
 ```
 
 ### preview
