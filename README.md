@@ -1,6 +1,6 @@
 # @css-doodle/cli
 
-A command-line tool for css-doodle to preview and generate images.
+A command-line tool for css-doodle to preview and generate images/videos.
 
 <img src="screenshot/preview.png" width="480px" alt="screenshot" />
 
@@ -15,7 +15,7 @@ npm install -g @css-doodle/cli
 
 ## Usage
 
-```
+```console
 Usage: cssd [options] [command]
 
 Options:
@@ -23,27 +23,27 @@ Options:
   -h, --help     display help for command
 
 Commands:
-  render         Generate an image from css|cssd|html file or from CodePen link
+  render         Generate an image/video from css|cssd|html file or CodePen link
   preview        Open a window to preview the css|cssd file
   generate       Generate code using css-doodle generators
-  config         Display/set the configurations
+  config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
-  parse          Print the parsed tokens, helped to debug on development
+  parse          Print the parsed tokens, helped to debug in development
   upgrade        Upgrade CLI to the latest version
 ```
 
 ## Commands
 
 ### render
-Generate an image from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file or CodePen link.
+Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file or CodePen link.
 
-* `-o, --output`: Custom output filename of the generated image.
-* `-x, --scale`: Scale factor of the generated image, defaults to 1.
+* `-o, --output`: Custom output filename of the generated result.
+* `-x, --scale`: Scale factor of the generated result, defaults to `2` for images, `1` for videos.
 * `-s, --selector`: CSS selector to target the rendered node, defaults to `css-doodle`.
-* `-d, --delay`: Delay after the image is rendered, e.g, `2s`.
+* `-d, --delay`: Delay time before taking screenshot/screencast, e.g, `2s`.
 * `-t, --time`: Record screen for a specific time, e.g, `10s`.
-* `-ws, --window-size`: The size of the rendered window, e.g, `800x600`, defaults to `1600x900`.
-* `--mp4`: Transform the generated `webm` file into `mp4`.
+* `-ws, --window-size`: The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos.
+* `--mp4`: Use `mp4` as the generated video format.
 
 ```bash
 cssd render
@@ -59,7 +59,9 @@ Screen recording:
 cssd render -t 10s
 ```
 
-By default the generated video is in `webm` format, you can transform it automatically into `mp4` by adding `--mp4` option, or use an output filename with `.mp4` extension.
+By default the generated video is in `webm` format,
+you can transform it automatically into `mp4` by adding `--mp4` option,
+or use an output filename with `.mp4` extension.
 
 ```bash
 cssd render -t 10s --mp4

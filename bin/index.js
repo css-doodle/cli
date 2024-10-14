@@ -42,13 +42,13 @@ program
     .command('render')
     .description('Generate an image from css|cssd|html file or from CodePen link')
     .argument('[source]', 'css-doolde source file used to generate the image')
-    .option('-o, --output <output>', 'Custom filename of the generated image')
-    .option('-x, --scale <scale>', 'Scale factor of the generated image, defaults to `2`')
-    .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`')
-    .option('-d, --delay <delay>', 'Delay after the image is rendered, e.g, `2s`')
+    .option('-o, --output <output>', 'Custom output filename of the generated result')
+    .option('-x, --scale <scale>', 'Scale factor of the generated result, defaults to `2` for images, `1` for videos')
+    .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`.')
+    .option('-d, --delay <delay>', 'Delay time before taking screenshot/screencast, e.g, `2s`.')
     .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s`')
-    .option('-ws, --window-size <size>', 'The size of the rendered window, e.g, `800x600`, defaults to `1600x900`')
-    .option('--mp4', 'Transform the generated `webm` file into `mp4`')
+    .option('-ws, --window-size <size>', 'The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos')
+    .option('--mp4', 'Use `mp4` as the generated video format')
     .action(handleRender);
 
 program
@@ -75,7 +75,7 @@ const commandGenerate = program
 
 const commandConfig = program
     .command('config')
-    .description('Display/set the configurations')
+    .description('Display/set configurations')
     .action((_, cmd) => cmd.help());
 
     commandConfig
