@@ -28,8 +28,8 @@ Commands:
   generate       Generate code using css-doodle generators
   config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
-  parse          Print the parsed tokens, helped to debug in development
-  upgrade        Upgrade CLI to the latest version
+  parse          Print the parsed tokens, help to debug in development
+  upgrade        Upgrade CLI to latest version
 ```
 
 ## Commands
@@ -135,7 +135,7 @@ cssd use latest
 ```
 
 ### upgrade
-Upgrade CLI to the latest version.
+Upgrade CLI to latest version.
 
 ```bash
 cssd upgrade

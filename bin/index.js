@@ -55,7 +55,7 @@ program
     .command('preview')
     .description('Open a window to preview the css|cssd file')
     .argument('[source]', 'css-doodle source file to preview')
-    .option('--fullscreen', 'open the preview in fullscreen mode')
+    .option('--fullscreen', 'open in fullscreen mode')
     .action(handlePreview);
 
 const commandGenerate = program
@@ -101,13 +101,13 @@ program
 
 program
     .command('parse')
-    .description('Print the parsed tokens, helped to debug on development')
+    .description('Print the parsed tokens, help to debug in development')
     .argument('[source]', 'css-doodle source file to parse')
     .action(handleParse);
 
 program
     .command('upgrade')
-    .description('Upgrade CLI to the latest version')
+    .description('Upgrade CLI to latest version')
     .action(handleUpgrade);
 
 if (process.argv.length <= 2) {
