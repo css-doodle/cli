@@ -38,7 +38,7 @@
     "commander": "^12.1.0",
     "css-doodle": "^0.40.7",
     "node-watch": "^0.7.4",
-    "puppeteer": "^23.5.0",
+    "puppeteer": "^23.11.1",
     "ws": "^8.18.0"
   },
   "devDependencies": {}
