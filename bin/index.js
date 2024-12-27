@@ -47,6 +47,7 @@ program
     .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`.')
     .option('-d, --delay <delay>', 'Delay time before taking screenshot/screencast, e.g, `2s`.')
     .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s`')
+    .option('-q, --quiet', 'Quiet mode, suppresses non-error output')
     .option('-ws, --window-size <size>', 'The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos')
     .option('--mp4', 'Use `mp4` as the generated video format')
     .action(handleRender);
