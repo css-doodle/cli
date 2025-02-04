@@ -61,42 +61,44 @@ program
     .option('--fullscreen', 'open in fullscreen mode')
     .action(handlePreview);
 
-const commandGenerate = program
+const generate =
+program
     .command('generate')
     .description('Generate code using css-doodle generators')
     .action((_, cmd) => cmd.help());
 
-    commandGenerate
+    generate
         .command('svg [source]')
         .description('Generate SVG code with svg() function')
         .action(handleGenerateSVG);
 
-    commandGenerate
+    generate
         .command('polygon [source]')
         .description('Generate CSS polygon() with shape() function')
         .action(handleGenerateShape);
 
-const commandConfig = program
+const config =
+program
     .command('config')
     .description('Display/set configurations')
     .action((_, cmd) => cmd.help());
 
-    commandConfig
+    config
         .command('set <field> <value>')
         .description('Set a configuration with key/value pair')
         .action(handleSetConfig);
 
-    commandConfig
+    config
         .command('get <field>')
         .description('Get a configuration value by key')
         .action(handleDisplayConfig);
 
-    commandConfig
+    config
         .command('unset <field>')
         .description('Unset a configuration field')
         .action(handleUnsetConfig);
 
-    commandConfig
+    config
         .command('list')
         .description('List all configurations')
         .action(handleDisplayConfigList);
