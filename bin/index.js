@@ -55,6 +55,7 @@ program
 
 program
     .command('run')
+    .alias('preview')
     .description('Open a window to preview the css|cssd file')
     .argument('[source]', 'css-doodle source file to preview')
     .option('--fullscreen', 'open in fullscreen mode')
