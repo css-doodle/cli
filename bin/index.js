@@ -40,12 +40,12 @@ program
 
 program
     .command('render')
-    .description('Generate an image from css|cssd|html file or from CodePen link')
-    .argument('[source]', 'css-doolde source file used to generate the image')
+    .description('Generate an image from a css|cssd|html file or a CodePen link')
+    .argument('[source]', 'css-doolde source file used to generate the image/video')
     .option('-o, --output <output>', 'Custom output filename of the generated result')
     .option('-x, --scale <scale>', 'Scale factor of the generated result, defaults to `2` for images, `1` for videos')
-    .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`.')
-    .option('-d, --delay <delay>', 'Delay time before taking screenshot/screencast, e.g, `2s`.')
+    .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`')
+    .option('-d, --delay <delay>', 'Delay time before taking screenshot/screencast, e.g, `2s`')
     .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s`')
     .option('-q, --quiet', 'Quiet mode, suppresses non-error output')
     .option('-ws, --window-size <size>', 'The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos')
@@ -53,7 +53,7 @@ program
     .action(handleRender);
 
 program
-    .command('preview')
+    .command('run')
     .description('Open a window to preview the css|cssd file')
     .argument('[source]', 'css-doodle source file to preview')
     .option('--fullscreen', 'open in fullscreen mode')

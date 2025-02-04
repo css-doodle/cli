@@ -23,8 +23,8 @@ Options:
   -h, --help     display help for command
 
 Commands:
-  render         Generate an image/video from css|cssd|html file or CodePen link
-  preview        Open a window to preview the css|cssd file
+  render         Generate an image/video from a css|cssd|html file or a CodePen link
+  run            Open a window to preview the css|cssd file
   generate       Generate code using css-doodle generators
   config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
@@ -42,6 +42,7 @@ Generate an image/video from the css-doodle source file. The source file can be 
 * `-s, --selector`: CSS selector to target the rendered node, defaults to `css-doodle`.
 * `-d, --delay`: Delay time before taking screenshot/screencast, e.g, `2s`.
 * `-t, --time`: Record screen for a specific time, e.g, `10s`.
+* `-q, --quiet`: Quiet mode, suppresses non-error output.
 * `-ws, --window-size`: The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos.
 * `--mp4`: Use `mp4` as the generated video format.
 
@@ -68,14 +69,14 @@ cssd render -t 10s --mp4
 cssd render -o result.mp4
 ```
 
-### preview
+### run
 Open a window to preview the css-doodle source file. The source file can be either `.css` or `.cssd`.
 
 * `--fullscreen`: Open in fullscreen mode.
 
 ```bash
-cssd preview code.css
-cssd preview code.css --fullscreen
+cssd run code.css
+cssd run code.css --fullscreen
 ```
 
 ### generate
