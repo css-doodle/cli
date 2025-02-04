@@ -10,6 +10,7 @@ import {
     handleGenerateSVG,
     handleGenerateShape,
     handleSetConfig,
+    handleUnsetConfig,
     handleDisplayConfig,
     handleDisplayConfigList,
     handleUseAction,
@@ -88,6 +89,11 @@ const commandConfig = program
         .command('get <field>')
         .description('Get a configuration value by key')
         .action(handleDisplayConfig);
+
+    commandConfig
+        .command('unset <field>')
+        .description('Unset a configuration field')
+        .action(handleUnsetConfig);
 
     commandConfig
         .command('list')

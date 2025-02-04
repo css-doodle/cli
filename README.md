@@ -96,10 +96,11 @@ cssd generate polygon
 
 ### config
 
-Display/set the configurations in key/value pairs. Currently only two configuration names are recognized:
+Display/set the configurations in key/value pairs.
 
-* `set`:  Set a configuration with key/value pair.
-* `get`:  Get a configuration value by key.
+* `set`: Set a configuration with key/value pair.
+* `get`: Get a configuration value by key.
+* `unset`: Unset a configuration field.
 * `list`: List all configurations.
 
 Recognizable configurations:
@@ -114,8 +115,8 @@ cssd config list
 # use a custom browser
 cssd config set browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
 
-# reset
-cssd config set browserPath ''
+# unset
+cssd config unset browserPath
 
 # get the value
 cssd config get browserPath
