@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { styleText } from 'node:util';
 import { Command } from 'commander';
 import { pkg } from '../lib/static.js';
 
@@ -36,7 +37,25 @@ program
     .configureHelp({
         subcommandTerm(cmd) {
             return cmd.name()
-        }
+        },
+        styleTitle(str) {
+            return styleText('bold', styleText('whiteBright', str));
+        },
+        styleCommandText(str) {
+            return styleText('bold', styleText('whiteBright', str));
+        },
+        styleSubcommandText(str) {
+            return styleText('blueBright', str);
+        },
+        styleSubcommandTerm(str) {
+            return styleText('bold', styleText('blueBright', str));
+        },
+        styleOptionTerm(str) {
+            return styleText('magentaBright', str);
+        },
+        styleOptionText(str) {
+            return styleText('magentaBright', str);
+        },
     });
 
 program
