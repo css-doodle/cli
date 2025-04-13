@@ -40,25 +40,28 @@ program
             return cmd.name()
         },
         styleTitle(str) {
-            return styleText('bold', styleText('whiteBright', str));
+            return styleText('bold', str);
         },
         styleCommandText(str) {
-            return styleText('bold', styleText('whiteBright', str));
+            return styleText('bold', str);
         },
         styleArgumentText(str) {
-            return styleText('magentaBright', str);
+            return styleText('bold', styleText('magenta', str));
+        },
+        styleArgumentTerm(str) {
+            return styleText('bold', styleText('magenta', str));
         },
         styleSubcommandText(str) {
-            return styleText('blueBright', str);
+            return styleText('bold', styleText('blue', str));
         },
         styleSubcommandTerm(str) {
-            return styleText('bold', styleText('blueBright', str));
+            return styleText('bold', styleText('blue', str));
         },
         styleOptionTerm(str) {
-            return styleText('cyanBright', str);
+            return styleText('bold', styleText('cyan', str));
         },
         styleOptionText(str) {
-            return styleText('cyanBright', str);
+            return styleText('bold', styleText('cyan', str));
         },
     })
     .configureOutput({
@@ -70,6 +73,15 @@ program
 program
     .argument('[source]', `css-doodle source file to preview (same as ${msgCommand('run')} command)`)
     .action(handlePreview)
+
+
+program
+    .command('run')
+    .alias('preview')
+    .description('Open a window to preview the css|cssd file')
+    .argument('[source]', 'css-doodle source file to preview')
+    .option('--fullscreen', 'open in fullscreen mode')
+    .action(handlePreview);
 
 program
     .command('render')
@@ -84,14 +96,6 @@ program
     .option('-w, --window <size>', 'The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos')
     .option('--mp4', 'Use `mp4` as the generated video format')
     .action(handleRender);
-
-program
-    .command('run')
-    .alias('preview')
-    .description('Open a window to preview the css|cssd file')
-    .argument('[source]', 'css-doodle source file to preview')
-    .option('--fullscreen', 'open in fullscreen mode')
-    .action(handlePreview);
 
 const generate =
 program
