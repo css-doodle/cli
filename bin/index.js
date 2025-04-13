@@ -44,6 +44,9 @@ program
         styleCommandText(str) {
             return styleText('bold', styleText('whiteBright', str));
         },
+        styleArgumentText(str) {
+            return styleText('magentaBright', str);
+        },
         styleSubcommandText(str) {
             return styleText('blueBright', str);
         },
@@ -51,12 +54,17 @@ program
             return styleText('bold', styleText('blueBright', str));
         },
         styleOptionTerm(str) {
-            return styleText('magentaBright', str);
+            return styleText('cyanBright', str);
         },
         styleOptionText(str) {
-            return styleText('magentaBright', str);
+            return styleText('cyanBright', str);
         },
     });
+
+program
+    .argument('[source]', 'css-doodle source file to preview (same as `run` command)')
+    .option('--fullscreen', 'open in fullscreen mode')
+    .action(handlePreview)
 
 program
     .command('render')
