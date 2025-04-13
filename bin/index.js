@@ -3,6 +3,7 @@
 import { styleText } from 'node:util';
 import { Command } from 'commander';
 import { pkg } from '../lib/static.js';
+import { msgError, msgCommand } from '../lib/message.js';
 
 import {
     handleRender,
@@ -59,10 +60,15 @@ program
         styleOptionText(str) {
             return styleText('cyanBright', str);
         },
+    })
+    .configureOutput({
+        outputError(str, write) {
+            write(msgError(String(str).replace(/^error: /, '')))
+        }
     });
 
 program
-    .argument('[source]', 'css-doodle source file to preview (same as `run` command)')
+    .argument('[source]', `css-doodle source file to preview (same as ${msgCommand('run')} command)`)
     .option('--fullscreen', 'open in fullscreen mode')
     .action(handlePreview)
 
