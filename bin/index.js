@@ -69,7 +69,6 @@ program
 
 program
     .argument('[source]', `css-doodle source file to preview (same as ${msgCommand('run')} command)`)
-    .option('--fullscreen', 'open in fullscreen mode')
     .action(handlePreview)
 
 program
