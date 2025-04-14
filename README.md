@@ -72,7 +72,7 @@ cssd render code.css
 cssd render code.css -o result.png
 cssd render code.css -x 4
 cssd render https://codepen.io/yuanchuan/pen/MQEeJo
-```                          <field> <value>
+```
 
 Screen recording:
 
