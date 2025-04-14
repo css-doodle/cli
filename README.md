@@ -1,6 +1,6 @@
 # @css-doodle/cli
 
-A command-line tool for css-doodle to preview and generate images/videos.
+Command-line tool for css-doodle to preview and generate images/videos.
 
 <img src="screenshot/preview.png" width="480px" alt="screenshot" />
 
@@ -16,15 +16,18 @@ npm install -g @css-doodle/cli
 ## Usage
 
 ```console
-Usage: cssd [options] [command]
+Usage: cssd [options] [command] [source]
+
+Arguments:
+  source         css-doodle source file to preview (same as run command)
 
 Options:
   -V, --version  output the version number
   -h, --help     display help for command
 
 Commands:
-  render         Generate an image/video from a css|cssd|html file or a CodePen link
   run            Open a window to preview the css|cssd file
+  render         Generate an image from a css|cssd|html file or a CodePen link
   generate       Generate code using css-doodle generators
   config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
@@ -34,17 +37,34 @@ Commands:
 
 ## Commands
 
+### run
+Open a window to preview the css-doodle source file. The source file can be either `.css` or `.cssd`.
+
+* `--fullscreen`: Open in fullscreen mode.
+
+```bash
+cssd run code.css
+cssd run code.css --fullscreen
+```
+
+The `run` can be omitted if you just want to preview.
+
+```bash
+cssd somefile.css
+```
+
 ### render
 Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file or CodePen link.
 
-* `-o, --output`: Custom output filename of the generated result.
-* `-x, --scale`: Scale factor of the generated result, defaults to `2` for images, `1` for videos.
-* `-s, --selector`: CSS selector to target the rendered node, defaults to `css-doodle`.
-* `-d, --delay`: Delay time before taking screenshot/screencast, e.g, `2s`.
-* `-t, --time`: Record screen for a specific time, e.g, `10s`.
-* `-q, --quiet`: Quiet mode, suppresses non-error output.
-* `-ws, --window-size`: The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos.
-* `--mp4`: Use `mp4` as the generated video format.
+* `-o, --output <output>`:      Custom output filename of the generated result
+* `-x, --scale <scale>`:        Scale factor of the generated result, defaults to `2` for images, `1` for videos
+* `-s, --selector <selector>`:  CSS selector to target the rendered node, defaults to `css-doodle`
+* `-d, --delay <delay>`:        Delay time before taking screenshot/screencast, e.g, `2s`
+* `-t, --time <time>`:          Record screen for a specific time, e.g, `10s`
+* `-q, --quiet`:                Quiet mode, suppresses non-error output
+* `-w, --window <size>`:        The size of the rendered window, defaults to `1600x1200` for images, `1200x900` for videos
+* `--mp4`:                      Use `mp4` as the generated video format
+
 
 ```bash
 cssd render
@@ -52,7 +72,7 @@ cssd render code.css
 cssd render code.css -o result.png
 cssd render code.css -x 4
 cssd render https://codepen.io/yuanchuan/pen/MQEeJo
-```
+```                          <field> <value>
 
 Screen recording:
 
@@ -67,16 +87,6 @@ or use an output filename with `.mp4` extension.
 ```bash
 cssd render -t 10s --mp4
 cssd render -o result.mp4
-```
-
-### run
-Open a window to preview the css-doodle source file. The source file can be either `.css` or `.cssd`.
-
-* `--fullscreen`: Open in fullscreen mode.
-
-```bash
-cssd run code.css
-cssd run code.css --fullscreen
 ```
 
 ### generate
@@ -98,12 +108,12 @@ cssd generate polygon
 
 Display/set the configurations in key/value pairs.
 
-* `set`: Set a configuration with key/value pair.
-* `get`: Get a configuration value by key.
-* `unset`: Unset a configuration field.
+* `set <field> <value>`: Set a configuration with key/value pair.
+* `get <field>`: Get a configuration value by key.
+* `unset <field>`: Unset a configuration field.
 * `list`: List all configurations.
 
-Recognizable configurations:
+Recognizable `field` configurations:
 
 * `browserPath`: The path to the browser executable.
 * `css-doodle`: The path to the css-doodle to use.
@@ -127,6 +137,8 @@ cssd config set css-doodle 0.40.6
 
 ### use
 Shorthand of `cssd config set css-doodle <version>`.
+
+* `<version>`: The version of css-doodle to use. It can be a specific version or `latest`.
 
 ```bash
 cssd use css-doodle@0.40.6
