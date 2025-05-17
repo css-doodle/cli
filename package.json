@@ -34,6 +34,9 @@
   },
   "homepage": "https://github.com/css-doodle/cli#readme",
   "type": "module",
+  "engines": {
+    "node": ">= 20.11.0"
+  },
   "dependencies": {
     "commander": "^13.1.0",
     "css-doodle": "^0.42.2",
