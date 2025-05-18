@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import process from 'node:process';
 import { styleText } from 'node:util';
 import { Command } from 'commander';
 import { pkg } from '../lib/static.js';
@@ -32,12 +33,12 @@ program
     })
     .addHelpText('afterAll', program => {
         if (!program.command.parent) {
-            return `\nLearn more: https://css-doodle.com`
+            return `\nLearn more: https://css-doodle.com`;
         }
     })
     .configureHelp({
         subcommandTerm(cmd) {
-            return cmd.name()
+            return cmd.name();
         },
         styleTitle(str) {
             return styleText('bold', str);
@@ -66,13 +67,13 @@ program
     })
     .configureOutput({
         outputError(str, write) {
-            write(msgError(String(str).replace(/^error: /, '')))
+            write(msgError(String(str).replace(/^error: /, '')));
         }
     });
 
 program
     .argument('[source]', `css-doodle source file to preview (same as ${msgCommand('run')} command)`)
-    .action(handlePreview)
+    .action(handlePreview);
 
 
 program
