@@ -27,7 +27,7 @@ Options:
 
 Commands:
   run            Open a window to preview the css|cssd file
-  render         Generate an image from a css|cssd|html file or a CodePen link
+  render         Generate an image from a css/cssd/html file, CodePen link, or http(s) URL
   generate       Generate code using css-doodle generators
   config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
@@ -54,7 +54,8 @@ cssd somefile.css
 ```
 
 ### render
-Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file or CodePen link.
+Generate an image/video from the css-doodle source file.
+The source file can be a `.css`, `.cssd`, `.html` file, CodePen link, or http(s) URL.
 
 * `-o, --output <output>`:      Custom output filename of the generated result
 * `-x, --scale <scale>`:        Scale factor of the generated result, defaults to `2` for images, `1` for videos
