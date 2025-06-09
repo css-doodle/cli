@@ -63,7 +63,7 @@ The source file can be a `.css`, `.cssd`, `.html` file, CodePen link, or http(s)
 * `-d, --delay <delay>`:        Delay time before taking screenshot/screencast, e.g, `2s`
 * `-t, --time <time>`:          Record screen for a specific time, e.g, `10s`
 * `-q, --quiet`:                Quiet mode, suppresses non-error output
-* `-w, --window <size>`:        The size of the rendered window, defaults to `1600x1000` for images, `1200x900` for videos
+* `-w, --window <size>`:        The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos
 * `--mp4`:                      Use `mp4` as the generated video format
 
 
