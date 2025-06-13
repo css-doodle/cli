@@ -1,6 +1,6 @@
 {
   "name": "@css-doodle/cli",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "description": "Command-line tool for css-doodle to preview and generate images/videos",
   "bin": {
     "css-doodle": "bin/index.js",
@@ -38,11 +38,11 @@
     "node": ">= 20.11.0"
   },
   "dependencies": {
-    "commander": "^13.1.0",
+    "commander": "^14.0.0",
     "css-doodle": "^0.42.2",
     "node-watch": "^0.7.4",
-    "puppeteer": "^v24.6.1",
-    "ws": "^8.18.1"
+    "puppeteer": "^v24.10.1",
+    "ws": "^8.18.2"
   },
   "devDependencies": {}
 }
