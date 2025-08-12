@@ -17,7 +17,7 @@ import {
     handleDisplayConfig,
     handleDisplayConfigList,
     handleUseAction,
-    handleUpgrade,
+    handleUpdate,
 } from '../lib/handler.js';
 
 const program = new Command();
@@ -153,9 +153,9 @@ program
     .action(handleParse);
 
 program
-    .command('upgrade')
-    .description('Upgrade CLI to latest version')
-    .action(handleUpgrade);
+    .command('update')
+    .description('Update CLI to latest version')
+    .action(handleUpdate);
 
 if (process.argv.length <= 2) {
     program.help();
