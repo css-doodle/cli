@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 import process from 'node:process';
-import { styleText } from 'node:util';
 import { Command } from 'commander';
 import { pkg } from '../lib/static.js';
-import { msgError, msgCommand } from '../lib/message.js';
+import { style } from '../lib/style.js';
 
 import {
     handleRender,
@@ -41,38 +40,38 @@ program
             return cmd.name();
         },
         styleTitle(str) {
-            return styleText('bold', str);
+            return style.bold(str);
         },
         styleCommandText(str) {
-            return styleText('bold', str);
+            return style.bold(str);
         },
         styleArgumentText(str) {
-            return styleText('bold', styleText('magenta', str));
+            return style.bold.magenta(str);
         },
         styleArgumentTerm(str) {
-            return styleText('bold', styleText('magenta', str));
+            return style.bold.magenta(str);
         },
         styleSubcommandText(str) {
-            return styleText('bold', styleText('blue', str));
+            return style.bold.blue(str);
         },
         styleSubcommandTerm(str) {
-            return styleText('bold', styleText('blue', str));
+            return style.bold.blue(str);
         },
         styleOptionTerm(str) {
-            return styleText('bold', styleText('cyan', str));
+            return style.bold.cyan(str);
         },
         styleOptionText(str) {
-            return styleText('bold', styleText('cyan', str));
+            return style.bold.cyan(str);
         },
     })
     .configureOutput({
         outputError(str, write) {
-            write(msgError(String(str).replace(/^error: /, '')));
+            write(style.red(String(str).replace(/^error: /, '')));
         }
     });
 
 program
-    .argument('[source]', `css-doodle source file to preview (same as ${msgCommand('run')} command)`)
+    .argument('[source]', `css-doodle source file to preview (same as ${style.blue('run')} command)`)
     .action(handlePreview);
 
 
