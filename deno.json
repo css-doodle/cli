@@ -1,0 +1,8 @@
+{
+    "fmt": {
+        "indentWidth": 4,
+        "lineWidth": 150,
+        "singleQuote": true,
+        "exclude": ["package-lock.json"]
+    }
+}

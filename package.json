@@ -1,48 +1,50 @@
 {
-  "name": "@css-doodle/cli",
-  "version": "1.8.2",
-  "description": "Command-line tool for css-doodle to preview and generate images/videos",
-  "bin": {
-    "css-doodle": "bin/index.js",
-    "cssd": "bin/index.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/css-doodle/cli.git"
-  },
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/css-doodle"
-  },
-  "keywords": [
-    "css-doodle"
-  ],
-  "files": [
-    "bin",
-    "lib"
-  ],
-  "author": "yuanchuan",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/css-doodle/cli/issues"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "homepage": "https://github.com/css-doodle/cli#readme",
-  "type": "module",
-  "engines": {
-    "node": ">= 20.11.0"
-  },
-  "dependencies": {
-    "commander": "^14.0.0",
-    "css-doodle": "^0.42.2",
-    "node-watch": "^0.7.4",
-    "puppeteer": "^v24.12.0",
-    "ws": "^8.18.2"
-  },
-  "devDependencies": {}
+    "name": "@css-doodle/cli",
+    "version": "1.8.2",
+    "description": "Command-line tool for css-doodle to preview and generate images/videos",
+    "bin": {
+        "css-doodle": "bin/index.js",
+        "cssd": "bin/index.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "lint": "npx deno lint",
+        "fmt": "npx deno fmt"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/css-doodle/cli.git"
+    },
+    "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/css-doodle"
+    },
+    "keywords": [
+        "css-doodle"
+    ],
+    "files": [
+        "bin",
+        "lib"
+    ],
+    "author": "yuanchuan",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/css-doodle/cli/issues"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "homepage": "https://github.com/css-doodle/cli#readme",
+    "type": "module",
+    "engines": {
+        "node": ">= 20.11.0"
+    },
+    "dependencies": {
+        "commander": "^14.0.0",
+        "css-doodle": "^0.42.2",
+        "node-watch": "^0.7.4",
+        "puppeteer": "^v24.12.0",
+        "ws": "^8.18.2"
+    },
+    "devDependencies": {}
 }

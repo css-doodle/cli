@@ -6,17 +6,17 @@ import { pkg } from '../lib/static.js';
 import { style } from '../lib/style.js';
 
 import {
-    handleRender,
-    handleParse,
-    handlePreview,
-    handleGenerateSVG,
-    handleGenerateShape,
-    handleSetConfig,
-    handleUnsetConfig,
     handleDisplayConfig,
     handleDisplayConfigList,
-    handleUseAction,
+    handleGenerateShape,
+    handleGenerateSVG,
+    handleParse,
+    handlePreview,
+    handleRender,
+    handleSetConfig,
+    handleUnsetConfig,
     handleUpdate,
+    handleUseAction,
 } from '../lib/handler.js';
 
 const program = new Command();
@@ -25,12 +25,12 @@ program
     .name(pkg.programName)
     .version(pkg.version)
     .addHelpCommand(false)
-    .addHelpText('beforeAll', program => {
+    .addHelpText('beforeAll', (program) => {
         if (!program.command.parent) {
             return `${pkg.description}. (${pkg.version})\n`;
         }
     })
-    .addHelpText('afterAll', program => {
+    .addHelpText('afterAll', (program) => {
         if (!program.command.parent) {
             return `\nLearn more: https://css-doodle.com`;
         }
@@ -67,13 +67,12 @@ program
     .configureOutput({
         outputError(str, write) {
             write(style.red(String(str).replace(/^error: /, '')));
-        }
+        },
     });
 
 program
     .argument('[source]', `css-doodle source file to preview (same as ${style.blue('run')} command)`)
     .action(handlePreview);
-
 
 program
     .command('run')
@@ -97,47 +96,45 @@ program
     .option('-f, --format <format>', 'Output format, `png|webp|jpeg` for images, `mp4|gif|webm` for videos')
     .action(handleRender);
 
-const generate =
-program
+const generate = program
     .command('generate')
     .description('Generate code using css-doodle generators')
     .action((_, cmd) => cmd.help());
 
-    generate
-        .command('svg [source]')
-        .description('Generate SVG code with svg() function')
-        .action(handleGenerateSVG);
+generate
+    .command('svg [source]')
+    .description('Generate SVG code with svg() function')
+    .action(handleGenerateSVG);
 
-    generate
-        .command('polygon [source]')
-        .description('Generate CSS polygon() with shape() function')
-        .action(handleGenerateShape);
+generate
+    .command('polygon [source]')
+    .description('Generate CSS polygon() with shape() function')
+    .action(handleGenerateShape);
 
-const config =
-program
+const config = program
     .command('config')
     .description('Display/set configurations')
     .action((_, cmd) => cmd.help());
 
-    config
-        .command('set <field> <value>')
-        .description('Set a configuration with key/value pair')
-        .action(handleSetConfig);
+config
+    .command('set <field> <value>')
+    .description('Set a configuration with key/value pair')
+    .action(handleSetConfig);
 
-    config
-        .command('get <field>')
-        .description('Get a configuration value by key')
-        .action(handleDisplayConfig);
+config
+    .command('get <field>')
+    .description('Get a configuration value by key')
+    .action(handleDisplayConfig);
 
-    config
-        .command('unset <field>')
-        .description('Unset a configuration field')
-        .action(handleUnsetConfig);
+config
+    .command('unset <field>')
+    .description('Unset a configuration field')
+    .action(handleUnsetConfig);
 
-    config
-        .command('list')
-        .description('List all configurations')
-        .action(handleDisplayConfigList);
+config
+    .command('list')
+    .description('List all configurations')
+    .action(handleDisplayConfigList);
 
 program
     .command('use')
