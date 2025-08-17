@@ -11,7 +11,7 @@ npm install -g @css-doodle/cli
 ```
 
 > [!NOTE]
-> After installation, you can use `cssd` or `css-doodle` command in the terminal.
+> Once installed, you can use either `cssd` or `css-doodle` command in the terminal.
 
 ## Usage
 
@@ -65,7 +65,7 @@ Generate an image/video from the css-doodle source file. The source file can be 
 - `-t, --time <time>`: Record screen for a specific time, e.g, `10s`
 - `-q, --quiet`: Quiet mode, suppresses non-error output
 - `-w, --window <size>`: The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos
-- `--mp4`: Use `mp4` as the generated video format
+- `-f, --format <format>`: Output format, `png|webp|jpeg` for images, `mp4|gif|webm` for videos
 
 ```bash
 cssd render
@@ -73,6 +73,7 @@ cssd render code.css
 cssd render code.css -o result.png
 cssd render code.css -x 4
 cssd render https://codepen.io/yuanchuan/pen/MQEeJo
+cssd render <<< '@grid: 3/400px; background: @p(red, blue)'
 ```
 
 Screen recording:
@@ -81,12 +82,19 @@ Screen recording:
 cssd render -t 10s
 ```
 
-By default the generated video is in `webm` format, you can transform it automatically into `mp4` by adding `--mp4` option, or use an output filename
-with `.mp4` extension.
+If the output filename ends with `.png`, `.webp`, or `.jpeg`, it will generate an image; if it ends with `.mp4`, `.gif`, or `.webm`, it will generate a video.
+If no output filename is specified, you can use the `-f` option to specify the output format.
+By default, it will generate a PNG image.
 
 ```bash
-cssd render -t 10s --mp4
-cssd render -o result.mp4
+cssd render code.css -o result.mp4
+cssd render code.css -o result.gif
+cssd render code.css -o result.png
+
+# png
+cssd render code.css
+# webp
+cssd render code.css -f webp
 ```
 
 ### generate
@@ -149,10 +157,10 @@ cssd use 0.40.6
 cssd use latest
 ```
 
-### upgrade
+### update
 
-Upgrade CLI to latest version.
+Update CLI to latest version.
 
 ```bash
-cssd upgrade
+cssd update
 ```
