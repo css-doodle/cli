@@ -96,7 +96,7 @@ cssd render code.css
 cssd render code.css -f webp
 ```
 
-### generate
+### gen
 
 Generate code using css-doodle generators.
 
@@ -104,8 +104,9 @@ Generate code using css-doodle generators.
 - `polygon`: Generate CSS polygon() using shape() function.
 
 ```bash
-cssd generate svg code.css
-cssd generate polygon code.css
+cssd gen svg <<< 'svg {}'
+cssd gen svg svg code.css
+cssd gen polygon code.css
 
 # read from STDIN
 cssd generate polygon
