@@ -97,7 +97,8 @@ program
     .action(handleRender);
 
 const generate = program
-    .command('generate')
+    .command('gen')
+    .alias('generate')
     .description('Generate code using css-doodle generators')
     .action((_, cmd) => cmd.help());
 

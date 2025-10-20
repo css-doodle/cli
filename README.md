@@ -28,7 +28,7 @@ Options:
 Commands:
   run            Open a window to preview the css|cssd file
   render         Generate an image from a css/cssd/html file, CodePen link, or http(s) URL
-  generate       Generate code using css-doodle generators
+  gen            Generate code using css-doodle generators
   config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
   parse          Print the parsed tokens, help to debug in development
@@ -82,9 +82,8 @@ Screen recording:
 cssd render -t 10s
 ```
 
-If the output filename ends with `.png`, `.webp`, or `.jpeg`, it will generate an image; if it ends with `.mp4`, `.gif`, or `.webm`, it will generate a video.
-If no output filename is specified, you can use the `-f` option to specify the output format.
-By default, it will generate a PNG image.
+If the output filename ends with `.png`, `.webp`, or `.jpeg`, it will generate an image; if it ends with `.mp4`, `.gif`, or `.webm`, it will generate
+a video. If no output filename is specified, you can use the `-f` option to specify the output format. By default, it will generate a PNG image.
 
 ```bash
 cssd render code.css -o result.mp4
