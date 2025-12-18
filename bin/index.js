@@ -72,7 +72,8 @@ program
 
 program
     .argument('[source]', `css-doodle source file to preview (same as ${style.blue('run')} command)`)
-    .option('--show-fps', 'show fps counter overlay')
+    .option('--show-fps-counter', 'show fps counter overlay')
+    .option('--show-paint-rects', 'show paint rects overlay')
     .action(handlePreview);
 
 program
@@ -81,7 +82,8 @@ program
     .description('Open a window to preview the css|cssd file')
     .argument('[source]', 'css-doodle source file to preview')
     .option('--fullscreen', 'open in fullscreen mode')
-    .option('--show-fps', 'show fps counter overlay')
+    .option('--show-fps-counter', 'show fps counter overlay')
+    .option('--show-paint-rects', 'show paint rects overlay')
     .action(handlePreview);
 
 program
