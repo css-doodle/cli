@@ -71,15 +71,9 @@ program
     });
 
 program
-    .argument('[source]', `css-doodle source file to preview (same as ${style.blue('run')} command)`)
-    .option('--show-fps-counter', 'show fps counter overlay')
-    .option('--show-paint-rects', 'show paint rects overlay')
-    .action(handlePreview);
-
-program
-    .command('run')
+    .command('run', { isDefault: true })
     .alias('preview')
-    .description('Open a window to preview the css|cssd file')
+    .description('Open a window to preview the css|cssd file, default command')
     .argument('[source]', 'css-doodle source file to preview')
     .option('--fullscreen', 'open in fullscreen mode')
     .option('--show-fps-counter', 'show fps counter overlay')

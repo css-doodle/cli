@@ -40,7 +40,7 @@
         "node": ">= 20.11.0"
     },
     "dependencies": {
-        "commander": "^14.0.0",
+        "commander": "^14.0.2",
         "css-doodle": "^0.48.0",
         "node-watch": "^0.7.4",
         "puppeteer": "^v24.33.0",

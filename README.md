@@ -16,17 +16,14 @@ npm install -g @css-doodle/cli
 ## Usage
 
 ```console
-Usage: cssd [options] [command] [source]
-
-Arguments:
-  source         css-doodle source file to preview (same as run command)
+Usage: cssd [options] [command]
 
 Options:
   -V, --version  output the version number
   -h, --help     display help for command
 
 Commands:
-  run            Open a window to preview the css|cssd file
+  run            Open a window to preview the css|cssd file, default command
   render         Generate an image from a css/cssd/html file, CodePen link, or http(s) URL
   gen            Generate code using css-doodle generators
   config         Display/set configurations
