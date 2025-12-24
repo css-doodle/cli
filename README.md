@@ -39,8 +39,8 @@ Commands:
 Open a window to preview the css-doodle source file. The source file can be either `.css` or `.cssd`.
 
 - `--fullscreen`: Open in fullscreen mode.
-- `--show-fps-counter`:  Show fps counter overlay.
-- `--show-paint-rects`:  Show paint rects overlay.
+- `--show-fps-counter`: Show fps counter overlay.
+- `--show-paint-rects`: Show paint rects overlay.
 
 ```bash
 cssd run code.css
