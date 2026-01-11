@@ -108,7 +108,7 @@ cssd gen svg svg code.css
 cssd gen polygon code.css
 
 # read from STDIN
-cssd generate polygon
+cssd gen polygon
 ```
 
 ### config
