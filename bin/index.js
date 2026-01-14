@@ -83,7 +83,7 @@ program
 program
     .command('render')
     .description('Generate an image from a css|cssd|html file, CodePen link, or http(s) URL')
-    .argument('[source]', 'css-doolde source file used to generate the image/video')
+    .argument('[source]', 'css-doodle source file used to generate the image/video')
     .option('-o, --output <output>', 'Custom output filename of the generated result')
     .option('-x, --scale <scale>', 'Scale factor of the generated result, defaults to `2` for images, `1` for videos')
     .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`')
