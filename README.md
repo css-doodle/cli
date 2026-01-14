@@ -104,7 +104,7 @@ Generate code using css-doodle generators.
 
 ```bash
 cssd gen svg <<< 'svg {}'
-cssd gen svg svg code.css
+cssd gen svg code.css
 cssd gen polygon code.css
 
 # read from STDIN
