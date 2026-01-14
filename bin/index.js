@@ -3,7 +3,7 @@
 import process from 'node:process';
 import { Command } from 'commander';
 import { pkg } from '../lib/static.js';
-import { style } from '../lib/style.js';
+import { style } from '../lib/utils.js';
 
 import {
     handleDisplayConfig,
