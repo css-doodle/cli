@@ -45,6 +45,7 @@ Open a window to preview the css-doodle source file. The source file can be eith
 ```bash
 cssd run code.css
 cssd run code.css --fullscreen
+cssd preview code.css
 ```
 
 The `run` can be omitted if you just want to preview.
@@ -106,6 +107,7 @@ Generate code using css-doodle generators.
 cssd gen svg <<< 'svg {}'
 cssd gen svg code.css
 cssd gen polygon code.css
+cssd generate svg code.css
 
 # read from STDIN
 cssd gen polygon
@@ -122,8 +124,8 @@ Display/set the configurations in key/value pairs.
 
 Recognizable `field` configurations:
 
-- `browserPath`: The path to the browser executable.
-- `css-doodle`: The path to the css-doodle to use.
+- `browserPath` (or `browser-path`, `executablePath`, `executable-path`): The path to the browser executable.
+- `css-doodle`: The path to the css-doodle to use, or a version number like `0.40.6` or `latest`.
 
 ```bash
 # show all configurations
@@ -140,6 +142,9 @@ cssd config get browserPath
 
 # download and use a custom version of css-doodle
 cssd config set css-doodle 0.40.6
+
+# use a local css-doodle file
+cssd config set css-doodle /path/to/css-doodle.min.js
 ```
 
 ### use
@@ -154,6 +159,15 @@ cssd use css-doodle@0.40.6
 # or just version
 cssd use 0.40.6
 cssd use latest
+```
+
+### parse
+
+Print the parsed tokens, useful for debugging css-doodle code in development.
+
+```bash
+cssd parse code.css
+cssd parse <<< '@grid: 3/400px; background: @p(red, blue)'
 ```
 
 ### update
