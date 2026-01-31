@@ -66,7 +66,7 @@ program
     })
     .configureOutput({
         outputError(str, write) {
-            write(style.red(String(str).replace(/^error: /, '')));
+            write(style.red(`✗ ${String(str).replace(/^error: /, '')}`));
         },
     });
 
