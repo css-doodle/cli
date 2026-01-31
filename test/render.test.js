@@ -1,6 +1,9 @@
-import { describe, it } from 'node:test';
+import { after, before, describe, it } from 'node:test';
 import assert from 'node:assert';
-import { buildHTML, getOutputInfo, maybeHTML } from '../lib/render/index.js';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import os from 'node:os';
+import { buildHTML, getOutputInfo, maybeHTML, processIfOutputExists } from '../lib/render/index.js';
 
 describe('getOutputInfo', () => {
     it('should default to png format when no options provided', () => {
@@ -161,5 +164,38 @@ describe('maybeHTML', () => {
     it('should handle self-closing tags', () => {
         assert.strictEqual(maybeHTML('<br/>'), true);
         assert.strictEqual(maybeHTML('<input type="text"/>'), true);
+    });
+});
+
+describe('processIfOutputExists', () => {
+    let tempDir;
+    let testFile;
+
+    before(async () => {
+        tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cssd-test-'));
+        testFile = path.join(tempDir, 'test-output.png');
+    });
+
+    after(async () => {
+        await fs.rm(tempDir, { recursive: true, force: true });
+    });
+
+    it('should return true when file does not exist', async () => {
+        const nonExistentFile = path.join(tempDir, 'non-existent.png');
+        const result = await processIfOutputExists(nonExistentFile, false);
+        assert.strictEqual(result, true);
+    });
+
+    it('should return true when file exists and yes is true', async () => {
+        await fs.writeFile(testFile, 'test content');
+        const result = await processIfOutputExists(testFile, true);
+        assert.strictEqual(result, true);
+        await fs.unlink(testFile);
+    });
+
+    it('should return true when file does not exist even with yes=true', async () => {
+        const nonExistentFile = path.join(tempDir, 'non-existent-2.png');
+        const result = await processIfOutputExists(nonExistentFile, true);
+        assert.strictEqual(result, true);
     });
 });

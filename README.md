@@ -66,11 +66,13 @@ Generate an image/video from the css-doodle source file. The source file can be 
 - `-q, --quiet`: Quiet mode, suppresses non-error output
 - `-w, --window <size>`: The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos
 - `-f, --format <format>`: Output format, `png|webp|jpeg` for images, `mp4|gif|webm` for videos
+- `-y, --yes`: Overwrite the output file if it already exists without prompting
 
 ```bash
 cssd render
 cssd render code.css
 cssd render code.css -o result.png
+cssd render code.css -o result.png -y
 cssd render code.css -x 4
 cssd render https://codepen.io/yuanchuan/pen/MQEeJo
 cssd render <<< '@grid: 3/400px; background: @p(red, blue)'
