@@ -198,4 +198,12 @@ describe('processIfOutputExists', () => {
         const result = await processIfOutputExists(nonExistentFile, true);
         assert.strictEqual(result, true);
     });
+
+    it('should return false in non-TTY when file exists and yes is false', async () => {
+        await fs.writeFile(testFile, 'test content');
+        // Simulate non-TTY by passing quiet=true (isTTY is false in test environment)
+        const result = await processIfOutputExists(testFile, false, true);
+        assert.strictEqual(result, false);
+        await fs.unlink(testFile);
+    });
 });
