@@ -31,10 +31,11 @@ describe('read - URL parsing', () => {
         }
     });
 
-    it('returns error for invalid CodePen URL', async () => {
-        const result = await read('https://codepen.io/user');
-        assert.strictEqual(result.type, 'codepen');
-        assert.ok(result.error?.message.includes('unsupported CodePen url'));
+    it('throws error for invalid CodePen URL', async () => {
+        await assert.rejects(
+            async () => await read('https://codepen.io/user'),
+            /unsupported CodePen url/,
+        );
     });
 
     it('parses HTTP(S) URLs', async () => {
@@ -76,27 +77,33 @@ describe('read - file handling', () => {
         assert.ok(!result.error);
     });
 
-    it('returns error for non-existing CSS file', async () => {
-        const result = await read('/non/existing/file.css');
-        assert.strictEqual(result.type, 'css');
-        assert.ok(result.error?.code === 'ENOENT' || result.error?.message?.includes('ENOENT'));
+    it('throws error for non-existing CSS file', async () => {
+        await assert.rejects(
+            async () => await read('/non/existing/file.css'),
+            /file not found/,
+        );
     });
 
-    it('returns error for non-existing HTML file', async () => {
-        const result = await read('/non/existing/file.html');
-        assert.strictEqual(result.type, 'html');
-        assert.ok(result.error?.message.includes('file not found'));
+    it('throws error for non-existing HTML file', async () => {
+        await assert.rejects(
+            async () => await read('/non/existing/file.html'),
+            /file not found/,
+        );
     });
 });
 
 describe('read - invalid inputs', () => {
-    it('returns error for unsupported file extension', async () => {
-        const result = await read('file.txt');
-        assert.ok(result.error?.message.includes('invalid input'));
+    it('throws error for unsupported file extension', async () => {
+        await assert.rejects(
+            async () => await read('file.txt'),
+            /invalid input/,
+        );
     });
 
-    it('returns error for path without extension', async () => {
-        const result = await read('random/path/without/extension');
-        assert.ok(result.error);
+    it('throws error for path without extension', async () => {
+        await assert.rejects(
+            async () => await read('random/path/without/extension'),
+            /invalid input/,
+        );
     });
 });

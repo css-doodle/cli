@@ -3,7 +3,7 @@
 import process from 'node:process';
 import { Command } from 'commander';
 import { pkg } from '../lib/static.js';
-import { style } from '../lib/utils.js';
+import { log, style } from '../lib/utils.js';
 
 import {
     handleDisplayConfig,
@@ -156,5 +156,10 @@ program
 if (process.argv.length <= 2) {
     program.help();
 } else {
-    program.parse();
+    try {
+        await program.parseAsync();
+    } catch (error) {
+        log.error(error.message);
+        process.exit(1);
+    }
 }
