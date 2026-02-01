@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.1] - TBD
+
+### Fixed
+
+- Remove `process.exit` from library code, making the code more testable
+- Update overwrite prompt to use readline and accept Enter as default
+- Fix error handling, race condition, and async patterns
+
+### Changed
+
+- Code cleanups and refactoring
+
 ## [1.12.0] - 2026-01-31
 
 ### Added
@@ -156,6 +168,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Support for `.css` and `.cssd` file types
 - File watching for live reload during preview
 
+[1.12.1]: https://github.com/css-doodle/cli/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/css-doodle/cli/compare/v1.11.1...v1.12.0
 [1.11.1]: https://github.com/css-doodle/cli/compare/v1.11.0...v1.11.1
 [1.11.0]: https://github.com/css-doodle/cli/compare/v1.10.1...v1.11.0
