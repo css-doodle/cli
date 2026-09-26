@@ -66,6 +66,10 @@
                                 updateWindow();
                             });
 
+                            const seed = query.get('seed');
+                            if (seed !== null) {
+                                doodle.setAttribute('seed', seed);
+                            }
                             doodle.innerHTML = `<template>${data}</template>`;
                             doodle.setAttribute('click-to-update', '');
                             doodle.setAttribute('experimental', '');

@@ -114,6 +114,21 @@ describe('buildHTML', () => {
         assert.ok(result.includes(code));
     });
 
+    it('should omit the seed attribute by default', () => {
+        const result = buildHTML('code', 'lib');
+        assert.ok(result.includes('<css-doodle><template>'));
+    });
+
+    it('should set the seed attribute when a seed is given', () => {
+        const result = buildHTML('code', 'lib', 'abc');
+        assert.ok(result.includes('<css-doodle seed="abc"><template>'));
+    });
+
+    it('should escape the seed attribute', () => {
+        const result = buildHTML('code', 'lib', '"><script>');
+        assert.ok(result.includes('<css-doodle seed="&quot;>&lt;script>"><template>'));
+    });
+
     it('should include proper viewport and styling', () => {
         const result = buildHTML('code', 'lib');
 
@@ -200,11 +215,10 @@ describe('processIfOutputExists', () => {
         assert.strictEqual(result, true);
     });
 
-    it('should return false in non-TTY when file exists and yes is false', async () => {
+    it('should throw in non-TTY when file exists and yes is false', async () => {
         await fs.writeFile(testFile, 'test content');
-        // Simulate non-TTY by passing quiet=true (isTTY is false in test environment)
-        const result = await processIfOutputExists(testFile, false, true);
-        assert.strictEqual(result, false);
+        // isTTY is false in test environment
+        await assert.rejects(processIfOutputExists(testFile, false), /already exists/);
         await fs.unlink(testFile);
     });
 });

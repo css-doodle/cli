@@ -42,10 +42,20 @@ describe('readTime', () => {
         assert.strictEqual(readTime('2m'), 120000);
     });
 
-    it('returns 0 for invalid formats', () => {
-        const invalid = ['invalid', 'abc', '', '1d', '1.5s'];
+    it('parses decimal values', () => {
+        assert.strictEqual(readTime('1.5s'), 1500);
+        assert.strictEqual(readTime('0.5m'), 30000);
+        assert.strictEqual(readTime('2.5'), 3);
+    });
+
+    it('returns 0 for undefined', () => {
+        assert.strictEqual(readTime(undefined), 0);
+    });
+
+    it('throws for invalid formats', () => {
+        const invalid = ['invalid', 'abc', '', '1d', '1h', '-1s', '.5s', '1.s'];
         for (const input of invalid) {
-            assert.strictEqual(readTime(input), 0, `expected 0 for "${input}"`);
+            assert.throws(() => readTime(input), /invalid time/, `expected error for "${input}"`);
         }
     });
 

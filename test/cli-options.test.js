@@ -40,10 +40,10 @@ describe('CLI option parsing - readTime for delay/time options', () => {
         assert.strictEqual(readTime('0ms'), 0);
     });
 
-    it('should return 0 for invalid time format', () => {
-        assert.strictEqual(readTime('invalid'), 0);
-        assert.strictEqual(readTime(''), 0);
-        assert.strictEqual(readTime('1x'), 0);
+    it('should throw for invalid time format', () => {
+        assert.throws(() => readTime('invalid'), /invalid time/);
+        assert.throws(() => readTime(''), /invalid time/);
+        assert.throws(() => readTime('1x'), /invalid time/);
     });
 });
 

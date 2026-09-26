@@ -76,6 +76,7 @@ program
     .description('Open a window to preview the css|cssd file, default command')
     .argument('[source]', 'css-doodle source file to preview')
     .option('--fullscreen', 'open in fullscreen mode')
+    .option('--seed <seed>', 'seed for the random functions, to get a reproducible result')
     .option('--show-fps-counter', 'show fps counter overlay')
     .option('--show-paint-rects', 'show paint rects overlay')
     .action(handlePreview);
@@ -93,6 +94,7 @@ program
     .option('-w, --window <size>', 'The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos')
     .option('-f, --format <format>', 'Output format, `png|webp|jpeg` for images, `mp4` for videos (`gif|webm` are deprecated)')
     .option('-y, --yes', 'Overwrite the output file if it already exists without prompting')
+    .option('--seed <seed>', 'Seed for the random functions, to reproduce a result (only for css-doodle source code)')
     .action(handleRender);
 
 const generate = program
