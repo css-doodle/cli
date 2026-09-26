@@ -4,6 +4,7 @@ import { read } from '../lib/read.js';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 async function withTempFile(ext, content, callback) {
     const tempDir = await mkdtemp(join(tmpdir(), 'css-doodle-test-'));
@@ -23,6 +24,9 @@ describe('read - URL parsing', () => {
             { input: 'https://codepen.io/user/details/abc123', type: 'details' },
             { input: 'https://codepen.io/user/full/abc123', type: 'full' },
             { input: 'codepen.io/user/pen/abc123', type: 'no-protocol' },
+            { input: 'https://codepen.io/user/pen/abc123/', type: 'trailing-slash' },
+            { input: 'https://codepen.io/user/pen/abc123?editors=1100', type: 'query' },
+            { input: 'https://codepen.io/user/pen/abc123/#code', type: 'hash' },
         ];
         for (const { input } of urls) {
             const result = await read(input);
@@ -75,6 +79,26 @@ describe('read - file handling', () => {
         assert.ok(result.content.startsWith('file://'));
         assert.ok(result.content.includes('test.html'));
         assert.ok(!result.error);
+    });
+
+    it('encodes special characters in HTML file URL', async () => {
+        const tempDir = await mkdtemp(join(tmpdir(), 'css-doodle-test-'));
+        const testFile = join(tempDir, 'a #b %20.html');
+        await writeFile(testFile, '<html></html>');
+        try {
+            const result = await read(testFile);
+            assert.ok(result.content.endsWith('/a%20%23b%20%2520.html'));
+            assert.strictEqual(fileURLToPath(result.content), testFile);
+        } finally {
+            await rm(tempDir, { recursive: true });
+        }
+    });
+
+    it('accepts upper case extensions', async () => {
+        const css = await withTempFile('CSS', '@grid: 5x5;', read);
+        assert.strictEqual(css.type, 'css');
+        const html = await withTempFile('HTML', '<html></html>', read);
+        assert.strictEqual(html.type, 'html');
     });
 
     it('throws error for non-existing CSS file', async () => {

@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Support decimal time values for `--delay`/`--time`, e.g. `1.5s`
 - Add `--seed` option to `gen svg` (requires css-doodle 0.53.0 or later)
 - Create missing directories of the `-o` output path
+- Accept `.htm` files and upper case extensions like `.CSS` and `.HTML`
 
 ### Changed
 
@@ -24,6 +25,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Exit with an error in non-TTY environments when the output file already exists
 - Upgrade the bundled css-doodle to 0.53.0
 - Report an error when `-s/--selector` matches no element, instead of capturing the whole page
+- `use` and `config set css-doodle` print the installed version, e.g. `using css-doodle@0.53.0` for `latest`
+- Name the output after the last path segment or hostname for http(s) URLs
+- Print the recording status once in non-TTY environments instead of a live countdown
 
 ### Fixed
 
@@ -39,6 +43,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Fix `config get` printing `undefined` for unset fields
 - Fix `config set css-doodle ''` failing instead of unsetting the field
 - Show a clean error in `run` when the browser fails to resolve or launch
+- Fix rendering `.html` files whose path contains `#`, `%`, or other URL special characters
+- Fix CodePen links with a trailing slash, query string, or hash, e.g. `?editors=1100`
+- Fix `update` command downgrading when the installed version is newer than the published one
+- Remove the empty download directory when fetching a css-doodle version fails
 
 ## [1.12.1] - TBD
 

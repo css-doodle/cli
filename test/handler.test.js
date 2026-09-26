@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { isPackageVersion, isValidCssDoodleFile, normalizeConfigField } from '../lib/handler.js';
+import { compareVersions, getTitle, isPackageVersion, isValidCssDoodleFile, normalizeConfigField } from '../lib/handler.js';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -96,5 +96,42 @@ describe('normalizeConfigField', () => {
     it('keeps other fields as is', () => {
         assert.strictEqual(normalizeConfigField('css-doodle'), 'css-doodle');
         assert.strictEqual(normalizeConfigField('foo'), 'foo');
+    });
+});
+
+describe('getTitle', () => {
+    it('returns undefined for stdin', () => {
+        assert.strictEqual(getTitle(undefined, 'stdin'), undefined);
+        assert.strictEqual(getTitle('-', 'stdin'), undefined);
+    });
+
+    it('uses the file name without extension', () => {
+        assert.strictEqual(getTitle('path/to/code.css', 'css'), 'code');
+        assert.strictEqual(getTitle('page.html', 'html'), 'page');
+    });
+
+    it('uses the pen id for CodePen links', () => {
+        assert.strictEqual(getTitle('https://codepen.io/user/pen/MQEeJo', 'codepen'), 'MQEeJo');
+        assert.strictEqual(getTitle('codepen.io/user/pen/MQEeJo/?editors=1100', 'codepen'), 'MQEeJo');
+    });
+
+    it('uses the last path segment or hostname for URLs', () => {
+        assert.strictEqual(getTitle('https://example.com/foo/bar.html?q=1', 'webpage'), 'bar');
+        assert.strictEqual(getTitle('https://example.com/foo/', 'webpage'), 'foo');
+        assert.strictEqual(getTitle('https://example.com/?q=1', 'webpage'), 'example.com');
+        assert.strictEqual(getTitle('https://example.com/a%20b', 'webpage'), 'a-b');
+    });
+});
+
+describe('compareVersions', () => {
+    it('compares major, minor, and patch numerically', () => {
+        assert.strictEqual(compareVersions('1.12.1', '1.12.1'), 0);
+        assert.strictEqual(compareVersions('1.12.1', '1.12.0'), 1);
+        assert.strictEqual(compareVersions('1.9.0', '1.12.0'), -1);
+        assert.strictEqual(compareVersions('2.0.0', '1.99.99'), 1);
+    });
+
+    it('ignores prerelease tags', () => {
+        assert.strictEqual(compareVersions('1.13.0-beta.1', '1.13.0'), 0);
     });
 });
