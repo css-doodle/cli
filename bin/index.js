@@ -91,7 +91,7 @@ program
     .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s`')
     .option('-q, --quiet', 'Quiet mode, suppresses non-error output')
     .option('-w, --window <size>', 'The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos')
-    .option('-f, --format <format>', 'Output format, `png|webp|jpeg` for images, `mp4|gif|webm` for videos')
+    .option('-f, --format <format>', 'Output format, `png|webp|jpeg` for images, `mp4` for videos (`gif|webm` are deprecated)')
     .option('-y, --yes', 'Overwrite the output file if it already exists without prompting')
     .action(handleRender);
 

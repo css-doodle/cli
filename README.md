@@ -65,7 +65,7 @@ Generate an image/video from the css-doodle source file. The source file can be 
 - `-t, --time <time>`: Record screen for a specific time, e.g, `10s`
 - `-q, --quiet`: Quiet mode, suppresses non-error output
 - `-w, --window <size>`: The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos
-- `-f, --format <format>`: Output format, `png|webp|jpeg` for images, `mp4|gif|webm` for videos
+- `-f, --format <format>`: Output format, `png|webp|jpeg` for images, `mp4` for videos (`gif|webm` are deprecated)
 - `-y, --yes`: Overwrite the output file if it already exists without prompting
 
 ```bash
@@ -84,12 +84,13 @@ Screen recording:
 cssd render -t 10s
 ```
 
-If the output filename ends with `.png`, `.webp`, or `.jpeg`, it will generate an image; if it ends with `.mp4`, `.gif`, or `.webm`, it will generate
-a video. If no output filename is specified, you can use the `-f` option to specify the output format. By default, it will generate a PNG image.
+If the output filename ends with `.png`, `.webp`, or `.jpeg`, it will generate an image; if it ends with `.mp4`, it will generate a video. If no
+output filename is specified, you can use the `-f` option to specify the output format. By default, it will generate a PNG image.
+
+Videos are recorded by the browser as AV1-encoded MP4. The `.gif` and `.webm` formats are deprecated and require [ffmpeg](https://ffmpeg.org).
 
 ```bash
 cssd render code.css -o result.mp4
-cssd render code.css -o result.gif
 cssd render code.css -o result.png
 
 # png

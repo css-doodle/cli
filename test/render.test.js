@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
 import { buildHTML, getOutputInfo, maybeHTML, processIfOutputExists } from '../lib/render/index.js';
+import { getClip } from '../lib/render/screencast.js';
 
 describe('getOutputInfo', () => {
     it('should default to png format when no options provided', () => {
@@ -205,5 +206,22 @@ describe('processIfOutputExists', () => {
         const result = await processIfOutputExists(testFile, false, true);
         assert.strictEqual(result, false);
         await fs.unlink(testFile);
+    });
+});
+
+describe('getClip', () => {
+    it('should clip to the element rect', () => {
+        const clip = getClip({ x: 440, y: 240, width: 320, height: 320 }, 1200, 800);
+        assert.deepStrictEqual(clip, { x: 440, y: 240, width: 320, height: 320 });
+    });
+
+    it('should clamp negative offsets to 0', () => {
+        const clip = getClip({ x: -150, y: -50, width: 900, height: 700 }, 600, 400);
+        assert.deepStrictEqual(clip, { x: 0, y: 0, width: 900, height: 700 });
+    });
+
+    it('should fall back to the full window when element is missing or empty', () => {
+        assert.deepStrictEqual(getClip(undefined, 640, 480), { x: 0, y: 0, width: 640, height: 480 });
+        assert.deepStrictEqual(getClip({ x: 10, y: 10, width: 0, height: 0 }, 640, 480), { x: 0, y: 0, width: 640, height: 480 });
     });
 });
