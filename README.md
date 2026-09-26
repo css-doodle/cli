@@ -39,6 +39,7 @@ Commands:
 Open a window to preview the css-doodle source file. The source file can be either `.css` or `.cssd`.
 
 - `--fullscreen`: Open in fullscreen mode.
+- `--seed <seed>`: Seed for the random functions, to get a reproducible result.
 - `--show-fps-counter`: Show fps counter overlay.
 - `--show-paint-rects`: Show paint rects overlay.
 
@@ -61,12 +62,13 @@ Generate an image/video from the css-doodle source file. The source file can be 
 - `-o, --output <output>`: Custom output filename of the generated result
 - `-x, --scale <scale>`: Scale factor of the generated result, defaults to `2` for images, `1` for videos
 - `-s, --selector <selector>`: CSS selector to target the rendered node, defaults to `css-doodle`
-- `-d, --delay <delay>`: Delay time before taking screenshot/screencast, e.g, `2s`
-- `-t, --time <time>`: Record screen for a specific time, e.g, `10s`
+- `-d, --delay <delay>`: Delay time before taking screenshot/screencast, e.g, `2s`, maximum `30s`
+- `-t, --time <time>`: Record screen for a specific time, e.g, `10s`, maximum `60s`
 - `-q, --quiet`: Quiet mode, suppresses non-error output
 - `-w, --window <size>`: The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos
 - `-f, --format <format>`: Output format, `png|webp|jpeg` for images, `mp4` for videos (`gif|webm` are deprecated)
 - `-y, --yes`: Overwrite the output file if it already exists without prompting
+- `--seed <seed>`: Seed for the random functions, to reproduce a result (only for css-doodle source code)
 
 ```bash
 cssd render
@@ -74,9 +76,15 @@ cssd render code.css
 cssd render code.css -o result.png
 cssd render code.css -o result.png -y
 cssd render code.css -x 4
+cssd render code.css --seed 1702
 cssd render https://codepen.io/yuanchuan/pen/MQEeJo
 cssd render <<< '@grid: 3/400px; background: @p(red, blue)'
 ```
+
+Without `-o`, the output filename includes the seed of the doodle (e.g. `code-1702.png`), so you can pass it back with `--seed` to render the same
+result again.
+
+Time values accept `ms`, `s`, or `m` units and decimals, e.g. `500ms`, `1.5s`, `1m`. A number without unit is in milliseconds.
 
 Screen recording:
 

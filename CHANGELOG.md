@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Add `--seed` option to `render` and `run` commands for reproducible results
+- Support decimal time values for `--delay`/`--time`, e.g. `1.5s`
+
+### Changed
+
+- Record MP4 videos with the browser's built-in recorder (AV1), ffmpeg is no longer needed for MP4
+- Deprecate `gif` and `webm` output formats, they still require ffmpeg and will be removed in a future version
+- Report an error for invalid `--delay`/`--time` values instead of silently ignoring them
+- Warn when `--delay`/`--time` exceeds the maximum value
+- Declining to overwrite prints a single message and exits with code 0
+- Exit with an error in non-TTY environments when the output file already exists
+
+### Fixed
+
+- Fix empty `gif`/`webm` video when recording static content
+- Report an error instead of saving an empty video when no frames are captured
+- Fix loading `gen` and `parse` modules from a custom css-doodle path
+- Fix `update` command to compare against the installed CLI version
+- Fix output filename when reading from stdin with `-`
+- Bind preview server to `127.0.0.1` and show its errors in the terminal
+
 ## [1.12.1] - TBD
 
 ### Fixed
