@@ -33,8 +33,8 @@ describe('isPackageVersion', () => {
         assert.strictEqual(isPackageVersion('css-doodle@0.48.0'), true);
     });
 
-    it('rejects css-doodle@latest (only bare "latest" is valid)', () => {
-        assert.strictEqual(isPackageVersion('css-doodle@latest'), false);
+    it('accepts css-doodle@latest', () => {
+        assert.strictEqual(isPackageVersion('css-doodle@latest'), true);
     });
 
     it('rejects invalid versions', () => {
