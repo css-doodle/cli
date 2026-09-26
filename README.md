@@ -24,7 +24,7 @@ Options:
 
 Commands:
   run            Open a window to preview the css|cssd file, default command
-  render         Generate an image from a css/cssd/html file, CodePen link, or http(s) URL
+  render         Generate an image from a css/cssd/html file, css-doodle or CodePen link, or http(s) URL
   gen            Generate code using css-doodle generators
   config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
@@ -36,7 +36,7 @@ Commands:
 
 ### run
 
-Open a window to preview the css-doodle source file. The source file can be either `.css` or `.cssd`.
+Open a window to preview the css-doodle source file. The source file can be a `.css` or `.cssd` file, or a css-doodle link.
 
 - `--fullscreen`: Open in fullscreen mode.
 - `--seed <seed>`: Seed for the random functions, to get a reproducible result.
@@ -57,7 +57,7 @@ cssd somefile.css
 
 ### render
 
-Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file, CodePen link, or http(s) URL.
+Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file, css-doodle link (`https://css-doodle.com/d/:id`), CodePen link, or http(s) URL.
 
 - `-o, --output <output>`: Custom output filename of the generated result, missing directories are created
 - `-x, --scale <scale>`: Scale factor of the generated result, defaults to `2` for images, `1` for videos
@@ -77,6 +77,7 @@ cssd render code.css -o result.png
 cssd render code.css -o result.png -y
 cssd render code.css -x 4
 cssd render code.css --seed 1702
+cssd render https://css-doodle.com/d/R3WhVB20fJ9fbZ1L
 cssd render https://codepen.io/yuanchuan/pen/MQEeJo
 cssd render <<< '@grid: 3/400px; background: @p(red, blue)'
 ```

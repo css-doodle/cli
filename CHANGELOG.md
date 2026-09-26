@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Add `--seed` option to `gen svg` (requires css-doodle 0.53.0 or later)
 - Create missing directories of the `-o` output path
 - Accept `.htm` files and upper case extensions like `.CSS` and `.HTML`
+- Accept css-doodle links like `https://css-doodle.com/d/:id` in `render`, `run`, `parse`, and `gen` commands
 
 ### Changed
 

@@ -115,6 +115,11 @@ describe('getTitle', () => {
         assert.strictEqual(getTitle('codepen.io/user/pen/MQEeJo/?editors=1100', 'codepen'), 'MQEeJo');
     });
 
+    it('uses the doodle id for css-doodle links', () => {
+        assert.strictEqual(getTitle('https://css-doodle.com/d/R3WhVB20fJ9fbZ1L', 'doodle'), 'R3WhVB20fJ9fbZ1L');
+        assert.strictEqual(getTitle('css-doodle.com/d/R3WhVB20fJ9fbZ1L/?x=1', 'doodle'), 'R3WhVB20fJ9fbZ1L');
+    });
+
     it('uses the last path segment or hostname for URLs', () => {
         assert.strictEqual(getTitle('https://example.com/foo/bar.html?q=1', 'webpage'), 'bar');
         assert.strictEqual(getTitle('https://example.com/foo/', 'webpage'), 'foo');

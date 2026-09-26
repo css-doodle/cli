@@ -42,6 +42,48 @@ describe('read - URL parsing', () => {
         );
     });
 
+    it('fetches css-doodle links', async (t) => {
+        const fetchMock = t.mock.method(globalThis, 'fetch', async () => Response.json({ demo: { code: ' @grid: 5; ' } }));
+        const urls = [
+            'https://css-doodle.com/d/R3WhVB20fJ9fbZ1L',
+            'css-doodle.com/d/R3WhVB20fJ9fbZ1L',
+            'https://www.css-doodle.com/d/R3WhVB20fJ9fbZ1L/',
+            'https://css-doodle.com/d/R3WhVB20fJ9fbZ1L?from=home#code',
+        ];
+        for (const input of urls) {
+            const result = await read(input);
+            assert.strictEqual(result.type, 'doodle');
+            assert.strictEqual(result.content, '@grid: 5;');
+        }
+        assert.strictEqual(fetchMock.mock.callCount(), urls.length);
+        for (const call of fetchMock.mock.calls) {
+            assert.strictEqual(call.arguments[0], 'https://css-doodle.com/api/demos/R3WhVB20fJ9fbZ1L');
+        }
+    });
+
+    it('throws error for invalid css-doodle URL', async () => {
+        await assert.rejects(
+            async () => await read('https://css-doodle.com/d/'),
+            /unsupported css-doodle url/,
+        );
+    });
+
+    it('throws error for missing doodle', async (t) => {
+        t.mock.method(globalThis, 'fetch', async () => Response.json({ error: {} }, { status: 404 }));
+        await assert.rejects(
+            async () => await read('https://css-doodle.com/d/abc'),
+            /doodle not found: abc/,
+        );
+    });
+
+    it('throws error when fetching doodle fails', async (t) => {
+        t.mock.method(globalThis, 'fetch', async () => new Response('', { status: 500 }));
+        await assert.rejects(
+            async () => await read('https://css-doodle.com/d/abc'),
+            /failed to fetch doodle abc: HTTP 500/,
+        );
+    });
+
     it('parses HTTP(S) URLs', async () => {
         const https = await read('https://example.com/style.css');
         assert.strictEqual(https.type, 'webpage');
