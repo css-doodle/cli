@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Add `--seed` option to `render` and `run` commands for reproducible results
 - Support decimal time values for `--delay`/`--time`, e.g. `1.5s`
+- Add `--seed` option to `gen svg` (requires css-doodle 0.53.0 or later)
+- Create missing directories of the `-o` output path
 
 ### Changed
 
@@ -20,6 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Warn when `--delay`/`--time` exceeds the maximum value
 - Declining to overwrite prints a single message and exits with code 0
 - Exit with an error in non-TTY environments when the output file already exists
+- Upgrade the bundled css-doodle to 0.53.0
+- Report an error when `-s/--selector` matches no element, instead of capturing the whole page
 
 ### Fixed
 
@@ -29,6 +33,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Fix `update` command to compare against the installed CLI version
 - Fix output filename when reading from stdin with `-`
 - Bind preview server to `127.0.0.1` and show its errors in the terminal
+- Fix `parse` command with css-doodle 0.52.0 or later, which renamed `parse_css` to `parseCss`
+- Fix `config set/get/unset` with the `browser-path`, `executablePath`, `executable-path` aliases, the value could be shadowed by an auto-detected
+  `browserPath`
+- Fix `config get` printing `undefined` for unset fields
+- Fix `config set css-doodle ''` failing instead of unsetting the field
+- Show a clean error in `run` when the browser fails to resolve or launch
 
 ## [1.12.1] - TBD
 

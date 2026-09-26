@@ -59,9 +59,9 @@ cssd somefile.css
 
 Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file, CodePen link, or http(s) URL.
 
-- `-o, --output <output>`: Custom output filename of the generated result
+- `-o, --output <output>`: Custom output filename of the generated result, missing directories are created
 - `-x, --scale <scale>`: Scale factor of the generated result, defaults to `2` for images, `1` for videos
-- `-s, --selector <selector>`: CSS selector to target the rendered node, defaults to `css-doodle`
+- `-s, --selector <selector>`: CSS selector to target the rendered node, defaults to `css-doodle`. Reports an error if no element matches
 - `-d, --delay <delay>`: Delay time before taking screenshot/screencast, e.g, `2s`, maximum `30s`
 - `-t, --time <time>`: Record screen for a specific time, e.g, `10s`, maximum `60s`
 - `-q, --quiet`: Quiet mode, suppresses non-error output
@@ -114,9 +114,12 @@ Generate code using css-doodle generators.
 - `svg`: Generate SVG code using svg() function.
 - `polygon`: Generate CSS polygon() using shape() function.
 
+- `--seed <seed>`: Seed for the random functions in `svg`, to get a reproducible result (requires css-doodle 0.53.0 or later).
+
 ```bash
 cssd gen svg <<< 'svg {}'
 cssd gen svg code.css
+cssd gen svg code.css --seed 1702
 cssd gen polygon code.css
 cssd generate svg code.css
 

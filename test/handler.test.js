@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { isPackageVersion, isValidCssDoodleFile } from '../lib/handler.js';
+import { isPackageVersion, isValidCssDoodleFile, normalizeConfigField } from '../lib/handler.js';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -83,5 +83,18 @@ describe('isValidCssDoodleFile', () => {
             isValidCssDoodleFile,
         );
         assert.strictEqual(result, false);
+    });
+});
+
+describe('normalizeConfigField', () => {
+    it('maps browser path aliases to browserPath', () => {
+        for (const alias of ['browserPath', 'browser-path', 'executablePath', 'executable-path']) {
+            assert.strictEqual(normalizeConfigField(alias), 'browserPath');
+        }
+    });
+
+    it('keeps other fields as is', () => {
+        assert.strictEqual(normalizeConfigField('css-doodle'), 'css-doodle');
+        assert.strictEqual(normalizeConfigField('foo'), 'foo');
     });
 });

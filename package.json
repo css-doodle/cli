@@ -42,7 +42,7 @@
     "dependencies": {
         "@puppeteer/browsers": "^3.2.3",
         "commander": "^14.0.3",
-        "css-doodle": "^0.50.2",
+        "css-doodle": "^0.53.0",
         "node-watch": "^0.7.4",
         "puppeteer-core": "^25.12.0",
         "ws": "^8.19.0"

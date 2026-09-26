@@ -106,6 +106,7 @@ const generate = program
 generate
     .command('svg [source]')
     .description('Generate SVG code with svg() function')
+    .option('--seed <seed>', 'seed for the random functions, to get a reproducible result')
     .action(handleGenerateSVG);
 
 generate
