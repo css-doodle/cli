@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.13.0] - 2026-09-27
 
 ### Added
 
@@ -24,9 +24,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Warn when `--delay`/`--time` exceeds the maximum value
 - Declining to overwrite prints a single message and exits with code 0
 - Exit with an error in non-TTY environments when the output file already exists
-- Upgrade the bundled css-doodle to 0.53.0
+- Upgrade the bundled css-doodle to 0.53.1
 - Report an error when `-s/--selector` matches no element, instead of capturing the whole page
-- `use` and `config set css-doodle` print the installed version, e.g. `using css-doodle@0.53.0` for `latest`
+- `use` and `config set css-doodle` print the installed version, e.g. `using css-doodle@0.53.1` for `latest`
 - Name the output after the last path segment or hostname for http(s) URLs
 - Print the recording status once in non-TTY environments instead of a live countdown
 
@@ -49,7 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Fix `update` command downgrading when the installed version is newer than the published one
 - Remove the empty download directory when fetching a css-doodle version fails
 
-## [1.12.1] - TBD
+## [1.12.1] - 2026-02-01
 
 ### Fixed
 
@@ -212,6 +212,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Support for `.css` and `.cssd` file types
 - File watching for live reload during preview
 
+[1.13.0]: https://github.com/css-doodle/cli/compare/v1.12.1...v1.13.0
 [1.12.1]: https://github.com/css-doodle/cli/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/css-doodle/cli/compare/v1.11.1...v1.12.0
 [1.11.1]: https://github.com/css-doodle/cli/compare/v1.11.0...v1.11.1

@@ -43,7 +43,7 @@ describe('read - URL parsing', () => {
     });
 
     it('fetches css-doodle links', async (t) => {
-        const fetchMock = t.mock.method(globalThis, 'fetch', async () => Response.json({ demo: { code: ' @grid: 5; ' } }));
+        const fetchMock = t.mock.method(globalThis, 'fetch', () => Promise.resolve(Response.json({ demo: { code: ' @grid: 5; ' } })));
         const urls = [
             'https://css-doodle.com/d/R3WhVB20fJ9fbZ1L',
             'css-doodle.com/d/R3WhVB20fJ9fbZ1L',
@@ -69,7 +69,7 @@ describe('read - URL parsing', () => {
     });
 
     it('throws error for missing doodle', async (t) => {
-        t.mock.method(globalThis, 'fetch', async () => Response.json({ error: {} }, { status: 404 }));
+        t.mock.method(globalThis, 'fetch', () => Promise.resolve(Response.json({ error: {} }, { status: 404 })));
         await assert.rejects(
             async () => await read('https://css-doodle.com/d/abc'),
             /doodle not found: abc/,
@@ -77,7 +77,7 @@ describe('read - URL parsing', () => {
     });
 
     it('throws error when fetching doodle fails', async (t) => {
-        t.mock.method(globalThis, 'fetch', async () => new Response('', { status: 500 }));
+        t.mock.method(globalThis, 'fetch', () => Promise.resolve(new Response('', { status: 500 })));
         await assert.rejects(
             async () => await read('https://css-doodle.com/d/abc'),
             /failed to fetch doodle abc: HTTP 500/,

@@ -57,7 +57,8 @@ cssd somefile.css
 
 ### render
 
-Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file, css-doodle link (`https://css-doodle.com/d/:id`), CodePen link, or http(s) URL.
+Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file, css-doodle link
+(`https://css-doodle.com/d/:id`), CodePen link, or http(s) URL.
 
 - `-o, --output <output>`: Custom output filename of the generated result, missing directories are created
 - `-x, --scale <scale>`: Scale factor of the generated result, defaults to `2` for images, `1` for videos
