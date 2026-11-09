@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Record MP4 videos at 60fps instead of the browser's default 30fps
+- Start recording doodles from the beginning of their animations, or from the `--delay` time, instead of partway through (requires css-doodle 0.65.0
+  or later)
+- Upgrade the bundled css-doodle to 0.69.0
+- Upgrade puppeteer-core to 25.16.0
+
 ## [1.13.0] - 2026-09-27
 
 ### Added
@@ -212,6 +222,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Support for `.css` and `.cssd` file types
 - File watching for live reload during preview
 
+[Unreleased]: https://github.com/css-doodle/cli/compare/v1.13.0...HEAD
 [1.13.0]: https://github.com/css-doodle/cli/compare/v1.12.1...v1.13.0
 [1.12.1]: https://github.com/css-doodle/cli/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/css-doodle/cli/compare/v1.11.1...v1.12.0

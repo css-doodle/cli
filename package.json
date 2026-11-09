@@ -40,11 +40,11 @@
         "node": ">= 22.12.0"
     },
     "dependencies": {
-        "@puppeteer/browsers": "^3.2.3",
+        "@puppeteer/browsers": "^3.2.6",
         "commander": "^14.0.3",
-        "css-doodle": "^0.53.1",
+        "css-doodle": "^0.69.0",
         "node-watch": "^0.7.4",
-        "puppeteer-core": "^25.12.0",
+        "puppeteer-core": "^25.16.0",
         "ws": "^8.19.0"
     }
 }
