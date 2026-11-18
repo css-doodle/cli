@@ -1,4 +1,4 @@
-import { after, describe, it } from 'node:test';
+import { after, before, describe, it } from 'node:test';
 import assert from 'node:assert';
 import fs from 'node:fs/promises';
 import os from 'node:os';
@@ -22,9 +22,9 @@ const { prepareOutput, render } = await import('../lib/render/index.js');
 const cli = fileURLToPath(new URL('../bin/index.js', import.meta.url));
 const browser = await findSystemBrowser();
 
-// The macOS runners paint only 20-35 frames per second with their virtual GPU,
+// The macOS and Windows runners have no real GPU, and record only 15-40 frames per second,
 // so only check there that the animation is recorded at all.
-const slowRunner = Boolean(process.env.CI) && process.platform === 'darwin';
+const slowRunner = Boolean(process.env.CI) && process.platform !== 'linux';
 const minFrames = (frames) => slowRunner ? 10 : frames;
 
 // Reads the codec, frame size and frame count of a recording, which has a single video track.
@@ -67,13 +67,20 @@ describe('record', { skip: !browser && 'no browser found' }, () => {
         @keyframes spin { to { transform: rotate(1turn) } }
     `;
 
-    async function record(name, code, args) {
+    async function renderFile(name, code, ext, args) {
         const source = path.join(tmpDir, `${name}.css`);
-        const output = path.join(tmpDir, `${name}.mp4`);
+        const output = path.join(tmpDir, `${name}.${ext}`);
         await fs.writeFile(source, code);
         await promisify(execFile)(process.execPath, [cli, 'render', source, '-o', output, '-q', '-y', ...args]);
-        return readMp4(await fs.readFile(output));
+        return output;
     }
+
+    async function record(name, code, args) {
+        return readMp4(await fs.readFile(await renderFile(name, code, 'mp4', args)));
+    }
+
+    // The first launch of the browser is slow on the runners, and once recorded a still video on macOS.
+    before(() => renderFile('warm-up', spin, 'png', []));
 
     it('should record the doodle at 60fps', async () => {
         const info = await record('spin', spin, ['-t', '1s', '-x', '2']);
