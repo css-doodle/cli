@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-11-18
+
 ### Changed
 
 - Record MP4 videos at 60fps instead of the browser's default 30fps
@@ -222,7 +224,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Support for `.css` and `.cssd` file types
 - File watching for live reload during preview
 
-[Unreleased]: https://github.com/css-doodle/cli/compare/v1.13.0...HEAD
+[Unreleased]: https://github.com/css-doodle/cli/compare/v1.14.0...HEAD
+[1.14.0]: https://github.com/css-doodle/cli/compare/v1.13.0...v1.14.0
 [1.13.0]: https://github.com/css-doodle/cli/compare/v1.12.1...v1.13.0
 [1.12.1]: https://github.com/css-doodle/cli/compare/v1.12.0...v1.12.1
 [1.12.0]: https://github.com/css-doodle/cli/compare/v1.11.1...v1.12.0
