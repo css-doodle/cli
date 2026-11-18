@@ -9,7 +9,8 @@
     "scripts": {
         "test": "node --test test/**/*.test.js",
         "lint": "npx deno lint",
-        "fmt": "npx deno fmt"
+        "fmt": "npx deno fmt",
+        "version": "node scripts/changelog.js && git add CHANGELOG.md"
     },
     "repository": {
         "type": "git",

@@ -1,0 +1,43 @@
+name: Release
+
+# `npm version minor && git push --follow-tags` moves the Unreleased notes in CHANGELOG.md
+# under the new version, then this tests, publishes, and makes the GitHub release from them
+on:
+    push:
+        tags: ['v*']
+
+permissions:
+    contents: write # the GitHub release
+    id-token: write # npm trusted publishing, which also signs provenance
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+
+            # Node 24 comes with npm 11, which trusted publishing needs
+            - uses: actions/setup-node@v5
+              with:
+                  node-version: 24
+                  registry-url: https://registry.npmjs.org
+
+            - name: Check the tag is the package version
+              run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
+
+            - name: Read the release notes from the changelog
+              run: |
+                  awk -v head="## [${GITHUB_REF_NAME#v}]" '/^## \[/ { found = index($0, head) == 1; next } found' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+                  grep -q '[^[:space:]]' "$RUNNER_TEMP/notes.md" || { echo "no notes for $GITHUB_REF_NAME in CHANGELOG.md"; exit 1; }
+
+            - run: npm ci --no-audit --no-fund
+
+            # the record tests run in the runner's Google Chrome
+            - run: npm test
+
+            - run: npm publish
+
+            - name: Make the GitHub release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: gh release create "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/notes.md"
