@@ -22,10 +22,14 @@ const { prepareOutput, render } = await import('../lib/render/index.js');
 const cli = fileURLToPath(new URL('../bin/index.js', import.meta.url));
 const browser = await findSystemBrowser();
 
-// The macOS and Windows runners have no real GPU, and record only 15-40 frames per second,
-// so only check there that the animation is recorded at all.
-const slowRunner = Boolean(process.env.CI) && process.platform !== 'linux';
-const minFrames = (frames) => slowRunner ? 10 : frames;
+// The runners have no real GPU and record fewer frames per second: 15-40 on Windows, enough to tell
+// the animation is recorded, but 7-30 on macOS, too close to the 2-4 of a still video to check.
+function minFrames(frames) {
+    if (!process.env.CI) return frames;
+    if (process.platform === 'darwin') return 1;
+    if (process.platform === 'win32') return 10;
+    return frames;
+}
 
 // Reads the codec, frame size and frame count of a recording, which has a single video track.
 function readMp4(buf) {
