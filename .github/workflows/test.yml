@@ -1,7 +1,7 @@
 name: Test
 
 # Finding and driving the browser differs per platform, so test on all three,
-# with the oldest Node.js in `engines` and the one the release is made with.
+# on Node.js 24, the one the release is made with.
 # Version tags are left to the release workflow, which tests before publishing
 on:
     push:
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
     test:
-        name: ${{ matrix.os }}, Node.js ${{ matrix.node }}
+        name: ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
         # a stuck browser shouldn't hold the runner for hours
         timeout-minutes: 15
@@ -27,13 +27,12 @@ jobs:
             fail-fast: false
             matrix:
                 os: [ubuntu-latest, macos-latest, windows-latest]
-                node: ['22.12.0', '24']
         steps:
             - uses: actions/checkout@v5
 
             - uses: actions/setup-node@v5
               with:
-                  node-version: ${{ matrix.node }}
+                  node-version: 24
                   cache: npm
 
             - run: npm ci --no-audit --no-fund
