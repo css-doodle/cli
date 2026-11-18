@@ -24,7 +24,7 @@ Options:
 
 Commands:
   run            Open a window to preview the css|cssd file, default command
-  render         Generate an image from a css/cssd/html file, css-doodle or CodePen link, or http(s) URL
+  render         Generate an image or video from a css/cssd/html file, css-doodle or CodePen link, or http(s) URL
   gen            Generate code using css-doodle generators
   config         Display/set configurations
   use            Shorthand to fetch and use a custom version of css-doodle
@@ -42,6 +42,7 @@ Open a window to preview the css-doodle source file. The source file can be a `.
 - `--seed <seed>`: Seed for the random functions, to get a reproducible result.
 - `--show-fps-counter`: Show fps counter overlay.
 - `--show-paint-rects`: Show paint rects overlay.
+- `-w, --window <size>`: Size of the preview window, e.g. `800x600`, defaults to fit the doodle.
 
 ```bash
 cssd run code.css
@@ -142,15 +143,16 @@ Display/set the configurations in key/value pairs.
 
 Recognizable `field` configurations:
 
-- `browserPath` (or `browser-path`, `executablePath`, `executable-path`): The path to the browser executable.
-- `css-doodle`: The path to the css-doodle to use, or a version number like `0.40.6` or `latest`.
+- `browserPath` (or `browser-path`, `executablePath`, `executable-path`): The path to the browser executable. On macOS, the app bundle like
+  `/Applications/Google Chrome.app` works too.
+- `css-doodle`: The path to the css-doodle to use, a version number like `0.40.6` or `latest`, or `bundled` to use the built-in one.
 
 ```bash
 # show all configurations
 cssd config list
 
 # use a custom browser
-cssd config set browserPath /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+cssd config set browserPath /Applications/Google\ Chrome.app
 
 # unset
 cssd config unset browserPath
@@ -169,7 +171,7 @@ cssd config set css-doodle /path/to/css-doodle.min.js
 
 Shorthand of `cssd config set css-doodle <version>`.
 
-- `<version>`: The version of css-doodle to use. It can be a specific version or `latest`.
+- `<version>`: The version of css-doodle to use. It can be a specific version, `latest`, or `bundled` to go back to the built-in one.
 
 ```bash
 cssd use css-doodle@0.40.6
@@ -177,6 +179,9 @@ cssd use css-doodle@0.40.6
 # or just version
 cssd use 0.40.6
 cssd use latest
+
+# back to the built-in version
+cssd use bundled
 ```
 
 ### parse
@@ -190,7 +195,8 @@ cssd parse <<< '@grid: 3/400px; background: @p(red, blue)'
 
 ### update
 
-Update CLI to latest version.
+Update CLI to latest version, with the package manager it's installed by: npm, pnpm, yarn, bun, or Volta. It won't update a CLI run by `npx`,
+installed in a project, or linked to its source code with `npm link`.
 
 ```bash
 cssd update

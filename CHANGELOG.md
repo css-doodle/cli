@@ -14,6 +14,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Print the warnings css-doodle reports about the code, e.g. `unknown function @foo() (1:41)`, and errors thrown on the page when rendering
 - Suggest the closest command for a mistyped one, e.g. `cssd rendr` suggests `render`
 - Preview the code piped to `cssd` without the `run` command, e.g. `cssd <<< '@grid: 5'`
+- Add `-w, --window <size>` option to `run` to set the size of the preview window
+- Add `cssd use bundled` to go back to the built-in css-doodle
+- Accept a macOS app bundle for `browserPath`, e.g. `cssd config set browserPath /Applications/Google\ Chrome.app`
+
+### Changed
+
+- Report invalid options, output formats, and an existing output file before reading the input or launching the browser
+- `update` uses the package manager the CLI is installed by: npm, pnpm, yarn, bun, or Volta, and won't overwrite a CLI run by `npx`, installed in a
+  project, or linked with `npm link`
+- `config set/get/unset` report unknown fields with a suggestion, e.g. `browserpath`, instead of saving them
+- `config set browserPath` reports a path that doesn't exist or isn't a file
+- Lowercase the descriptions of `render` options to match the others, and mention videos in the `render` description
 
 ### Fixed
 
@@ -23,6 +35,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Fix the stdin hint being written into the output when the piped input is slow, e.g. `slow-cmd | cssd gen svg > out.svg`
 - Fix `cssd run -` ignoring the code from stdin
 - Report an error for empty piped input in `run` instead of opening an empty preview
+- Fix the overwrite prompt hanging after typing the code to render into the terminal
+- Fix the preview window size on platforms whose title bar isn't 28px high
 
 ## [1.14.0] - 2026-11-18
 

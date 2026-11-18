@@ -89,9 +89,14 @@
 
                 if (autoResize) {
                     autoResize = false;
-                    width = clamp(width, MIN_SIZE, MAX_SIZE);
-                    height = clamp(height, MIN_SIZE, MAX_SIZE);
-                    window.resizeTo(width, height + 28);
+                    const [w, h] = (query.get('window') ?? '').split('x').map(Number);
+                    width = w || clamp(width, MIN_SIZE, MAX_SIZE);
+                    height = h || clamp(height, MIN_SIZE, MAX_SIZE);
+                    // resizeTo() sets the outer size, so add the size of the title bar and borders.
+                    window.resizeTo(
+                        width + window.outerWidth - window.innerWidth,
+                        height + window.outerHeight - window.innerHeight,
+                    );
                 }
             }
 

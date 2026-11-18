@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert';
 import { readTime } from '../lib/utils.js';
 import { getOutputInfo } from '../lib/render/index.js';
+import { parseScale, parseWindowSize } from '../lib/handler.js';
 
 describe('CLI option parsing - readTime for delay/time options', () => {
     it('should parse delay option with seconds', () => {
@@ -49,82 +50,43 @@ describe('CLI option parsing - readTime for delay/time options', () => {
 
 describe('CLI option parsing - window size', () => {
     it('should parse window size with x separator', () => {
-        const window = '1600x1000';
-        const [w, h = w] = window.split(/[,x]/);
-        assert.strictEqual(Number(w), 1600);
-        assert.strictEqual(Number(h), 1000);
+        assert.deepStrictEqual(parseWindowSize('1600x1000'), { width: 1600, height: 1000 });
     });
 
     it('should parse window size with comma separator', () => {
-        const window = '1200,800';
-        const [w, h = w] = window.split(/[,x]/);
-        assert.strictEqual(Number(w), 1200);
-        assert.strictEqual(Number(h), 800);
+        assert.deepStrictEqual(parseWindowSize('1200,800'), { width: 1200, height: 800 });
     });
 
     it('should use width as height when no height provided', () => {
-        const window = '800';
-        const [w, h = w] = window.split(/[,x]/);
-        assert.strictEqual(Number(w), 800);
-        assert.strictEqual(Number(h), 800);
+        assert.deepStrictEqual(parseWindowSize('800'), { width: 800, height: 800 });
     });
 
-    it('should parse square window', () => {
-        const window = '1000x1000';
-        const [w, h = w] = window.split(/[,x]/);
-        assert.strictEqual(Number(w), 1000);
-        assert.strictEqual(Number(h), 1000);
-    });
-});
-
-describe('CLI option parsing - window size validation', () => {
     it('should reject invalid window size format', () => {
-        const invalidSizes = ['abc', '100xabc', 'abcx100', '0x100', '100x0', '-100x200'];
-        for (const size of invalidSizes) {
-            const [w, h = w] = size.split(/[,x]/);
-            const width = Number(w);
-            const height = Number(h);
-            const isValid = Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0;
-            assert.strictEqual(isValid, false, `expected "${size}" to be invalid`);
+        for (const size of ['abc', '100xabc', 'abcx100', '0x100', '100x0', '-100x200', 'x100']) {
+            assert.throws(() => parseWindowSize(size), /invalid window size/, `expected "${size}" to be invalid`);
         }
     });
 
     it('should reject window size exceeding maximum', () => {
-        const width = 9000;
-        const height = 1000;
-        const exceedsMax = width > 8192 || height > 8192;
-        assert.strictEqual(exceedsMax, true);
+        assert.throws(() => parseWindowSize('9000x1000'), /maximum is 8192x8192/);
+        assert.throws(() => parseWindowSize('1000x9000'), /maximum is 8192x8192/);
     });
 
-    it('should accept valid window sizes', () => {
-        const validSizes = ['800x600', '1920x1080', '100x100', '8192x8192'];
-        for (const size of validSizes) {
-            const [w, h = w] = size.split(/[,x]/);
-            const width = Number(w);
-            const height = Number(h);
-            const isValid = Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0;
-            const withinMax = width <= 8192 && height <= 8192;
-            assert.strictEqual(isValid && withinMax, true, `expected "${size}" to be valid`);
-        }
+    it('should accept the maximum window size', () => {
+        assert.deepStrictEqual(parseWindowSize('8192x8192'), { width: 8192, height: 8192 });
     });
 });
 
 describe('CLI option parsing - scale validation', () => {
     it('should parse valid scale values', () => {
-        const validScales = ['0.5', '1', '2', '10', '0.1'];
-        for (const scale of validScales) {
-            const num = Number(scale);
-            const isValid = Number.isFinite(num) && num > 0 && num <= 10;
-            assert.strictEqual(isValid, true, `expected "${scale}" to be valid`);
+        for (const scale of ['0.5', '1', '2', '10', '0.1']) {
+            assert.strictEqual(parseScale(scale), Number(scale));
         }
     });
 
     it('should reject invalid scale values', () => {
-        const invalidScales = ['0', '-1', '11', 'abc'];
-        for (const scale of invalidScales) {
-            const num = Number(scale);
-            const isValid = Number.isFinite(num) && num > 0 && num <= 10;
-            assert.strictEqual(isValid, false, `expected "${scale}" to be invalid`);
+        for (const scale of ['0', '-1', '11', 'abc']) {
+            assert.throws(() => parseScale(scale), /invalid scale/, `expected "${scale}" to be invalid`);
         }
     });
 });

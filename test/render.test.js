@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
-import { buildHTML, getOutputInfo, maybeHTML, processIfOutputExists } from '../lib/render/index.js';
+import { buildHTML, getOutputInfo, maybeHTML, prepareOutput, processIfOutputExists } from '../lib/render/index.js';
 import { getClip } from '../lib/render/screencast.js';
 
 describe('getOutputInfo', () => {
@@ -268,6 +268,70 @@ describe('processIfOutputExists', () => {
         // isTTY is false in test environment
         await assert.rejects(processIfOutputExists(testFile, false), /already exists/);
         await fs.unlink(testFile);
+    });
+
+    it('should throw when it can not prompt and the file exists', async () => {
+        await fs.writeFile(testFile, 'test content');
+        await assert.rejects(processIfOutputExists(testFile, false, { prompt: false }), /already exists/);
+        assert.strictEqual(await processIfOutputExists(testFile, true, { prompt: false }), true);
+        await fs.unlink(testFile);
+    });
+});
+
+describe('prepareOutput', () => {
+    let tempDir;
+
+    before(async () => {
+        tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'cssd-test-'));
+    });
+
+    after(async () => {
+        await fs.rm(tempDir, { recursive: true, force: true });
+    });
+
+    it('should resolve the format of an output file', async () => {
+        const options = { output: path.join(tempDir, 'a.jpg') };
+        assert.strictEqual(await prepareOutput(options), true);
+        assert.strictEqual(options.format, 'jpeg');
+        assert.strictEqual(options.extension, 'jpg');
+        assert.strictEqual(options.outputType, 'image');
+        assert.strictEqual(options.outputDir, undefined);
+    });
+
+    it('should default the recording time of videos to 5s', async () => {
+        const options = { format: 'mp4' };
+        await prepareOutput(options);
+        assert.strictEqual(options.outputType, 'video');
+        assert.strictEqual(options.time, 5000);
+    });
+
+    it('should take a path ending with a slash as a directory', async () => {
+        const output = path.join(tempDir, 'missing') + '/';
+        const options = { output };
+        assert.strictEqual(await prepareOutput(options), true);
+        assert.strictEqual(options.output, undefined);
+        assert.strictEqual(options.outputDir, output);
+        assert.strictEqual(options.extension, 'png');
+    });
+
+    it('should take an existing directory as a directory', async () => {
+        const options = { output: tempDir, format: 'webp' };
+        await prepareOutput(options);
+        assert.strictEqual(options.output, undefined);
+        assert.strictEqual(options.outputDir, tempDir);
+        assert.strictEqual(options.extension, 'webp');
+    });
+
+    it('should report an existing output file before rendering', async () => {
+        const output = path.join(tempDir, 'exists.png');
+        await fs.writeFile(output, '');
+        await assert.rejects(prepareOutput({ output }), /already exists/);
+        assert.strictEqual(await prepareOutput({ output, yes: true }), true);
+    });
+
+    it('should report an invalid format before rendering', async () => {
+        await assert.rejects(prepareOutput({ format: 'bmp' }), /unrecognized format 'bmp'/);
+        await assert.rejects(prepareOutput({ output: 'a.svg' }), /unsupported output format 'svg'/);
     });
 });
 

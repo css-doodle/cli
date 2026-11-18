@@ -79,22 +79,23 @@ program
     .option('--seed <seed>', 'seed for the random functions, to get a reproducible result')
     .option('--show-fps-counter', 'show fps counter overlay')
     .option('--show-paint-rects', 'show paint rects overlay')
+    .option('-w, --window <size>', 'size of the preview window, e.g. `800x600`, defaults to fit the doodle')
     .action(handlePreview);
 
 program
     .command('render')
-    .description('Generate an image from a css|cssd|html file, css-doodle or CodePen link, or http(s) URL')
+    .description('Generate an image or video from a css|cssd|html file, css-doodle or CodePen link, or http(s) URL')
     .argument('[source]', 'css-doodle source file used to generate the image/video')
-    .option('-o, --output <output>', 'Custom output filename of the generated result')
-    .option('-x, --scale <scale>', 'Scale factor of the generated result, defaults to `2` for images, `1` for videos')
+    .option('-o, --output <output>', 'output filename or directory of the generated result')
+    .option('-x, --scale <scale>', 'scale factor of the generated result, defaults to `2` for images, `1` for videos')
     .option('-s, --selector <selector>', 'CSS selector to target the rendered node, defaults to `css-doodle`')
-    .option('-d, --delay <delay>', 'Delay time before taking screenshot/screencast, e.g, `2s`')
-    .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s`')
-    .option('-q, --quiet', 'Quiet mode, suppresses non-error output')
-    .option('-w, --window <size>', 'The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos')
-    .option('-f, --format <format>', 'Output format, `png|webp|jpeg|jpg` for images, `mp4` for videos (`gif|webm` are deprecated)')
-    .option('-y, --yes', 'Overwrite the output file if it already exists without prompting')
-    .option('--seed <seed>', 'Seed for the random functions, to reproduce a result (only for css-doodle source code)')
+    .option('-d, --delay <delay>', 'delay time before taking screenshot/screencast, e.g. `2s`')
+    .option('-t, --time <time>', 'record screen for a specific time, e.g. `10s`')
+    .option('-q, --quiet', 'quiet mode, suppresses non-error output')
+    .option('-w, --window <size>', 'size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos')
+    .option('-f, --format <format>', 'output format, `png|webp|jpeg|jpg` for images, `mp4` for videos (`gif|webm` are deprecated)')
+    .option('-y, --yes', 'overwrite the output file if it already exists without prompting')
+    .option('--seed <seed>', 'seed for the random functions, to reproduce a result (only for css-doodle source code)')
     .action(handleRender);
 
 const generate = program
@@ -142,7 +143,7 @@ config
 program
     .command('use')
     .description('Shorthand to fetch and use a custom version of css-doodle')
-    .argument('<version>', 'Custom version of css-doodle to use. E.g. css-doodle@latest')
+    .argument('<version>', 'version of css-doodle to use, e.g. `0.70.0`, `latest`, or `bundled` to go back to the built-in one')
     .action(handleUseAction);
 
 program
@@ -156,9 +157,6 @@ program
     .description('Update CLI to latest version')
     .action(handleUpdate);
 
-// `run` is the default command, so a mistyped command like `cssd rendr code.css`
-// would be taken as a source. Every source has a `.` in it except `-` for stdin,
-// so a plain word that isn't a command must be an unknown command.
 const [firstArg] = process.argv.slice(2);
 const commandNames = program.commands.flatMap((cmd) => [cmd.name(), ...cmd.aliases()]);
 if (firstArg && !firstArg.startsWith('-') && !/[./\\:]/.test(firstArg) && !commandNames.includes(firstArg)) {
@@ -166,7 +164,6 @@ if (firstArg && !firstArg.startsWith('-') && !/[./\\:]/.test(firstArg) && !comma
     program.error(`unknown command '${firstArg}'${suggestion ? `, did you mean '${suggestion}'?` : ''}`);
 }
 
-// Without arguments, preview the code piped in, e.g. `cssd <<< '...'`, or show the help.
 if (process.argv.length <= 2 && process.stdin.isTTY) {
     program.help();
 } else {

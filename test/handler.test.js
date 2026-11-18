@@ -1,7 +1,16 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { compareVersions, getTitle, isPackageVersion, isValidCssDoodleFile, normalizeConfigField } from '../lib/handler.js';
-import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import {
+    checkConfigField,
+    compareVersions,
+    getTitle,
+    getUpdateCommand,
+    isPackageVersion,
+    isValidCssDoodleFile,
+    normalizeConfigField,
+    resolveBrowserExecutable,
+} from '../lib/handler.js';
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -138,5 +147,117 @@ describe('compareVersions', () => {
 
     it('ignores prerelease tags', () => {
         assert.strictEqual(compareVersions('1.13.0-beta.1', '1.13.0'), 0);
+    });
+});
+
+describe('checkConfigField', () => {
+    it('accepts known fields and aliases', () => {
+        assert.strictEqual(checkConfigField('css-doodle'), 'css-doodle');
+        assert.strictEqual(checkConfigField('browserPath'), 'browserPath');
+        assert.strictEqual(checkConfigField('executable-path'), 'browserPath');
+    });
+
+    it('suggests the closest field for a typo', () => {
+        assert.throws(() => checkConfigField('browserpath'), /unknown config field 'browserpath', did you mean 'browserPath'\?/);
+        assert.throws(() => checkConfigField('cssdoodle'), /did you mean 'css-doodle'\?/);
+    });
+
+    it('lists the fields when nothing is close', () => {
+        assert.throws(() => checkConfigField('foo'), /unknown config field 'foo', expected one of: browserPath, css-doodle/);
+    });
+});
+
+describe('resolveBrowserExecutable', () => {
+    async function withTempDir(callback) {
+        const dir = await mkdtemp(join(tmpdir(), 'css-doodle-test-'));
+        try {
+            return await callback(dir);
+        } finally {
+            await rm(dir, { recursive: true });
+        }
+    }
+
+    it('returns the absolute path of a file', async () => {
+        await withTempDir(async (dir) => {
+            const file = join(dir, 'chrome');
+            await writeFile(file, '');
+            assert.strictEqual(await resolveBrowserExecutable(file), file);
+        });
+    });
+
+    it('rejects a missing path', async () => {
+        await assert.rejects(resolveBrowserExecutable('/non/existing/chrome'), /browser not found: \/non\/existing\/chrome/);
+    });
+
+    it('rejects a directory', async () => {
+        await withTempDir(async (dir) => {
+            await assert.rejects(resolveBrowserExecutable(dir), /is a directory, expected the path to the browser executable/);
+        });
+    });
+
+    it('uses the executable inside a macOS app bundle', async () => {
+        await withTempDir(async (dir) => {
+            const app = join(dir, 'Google Chrome.app');
+            await mkdir(join(app, 'Contents/MacOS'), { recursive: true });
+            await writeFile(join(app, 'Contents/MacOS/Google Chrome'), '');
+            assert.strictEqual(await resolveBrowserExecutable(app), join(app, 'Contents/MacOS/Google Chrome'));
+        });
+    });
+});
+
+describe('getUpdateCommand', () => {
+    const npmRoot = '/opt/homebrew/lib/node_modules';
+
+    it('uses npm for the npm global packages', () => {
+        const { command } = getUpdateCommand(`${npmRoot}/@css-doodle/cli`, npmRoot);
+        assert.strictEqual(command, 'npm install --silent --no-fund -g @css-doodle/cli');
+    });
+
+    it('uses npm when the npm global root is unknown', () => {
+        const { command } = getUpdateCommand('/somewhere/node_modules/@css-doodle/cli', undefined);
+        assert.match(command, /^npm install/);
+    });
+
+    it('uses npm on Windows', () => {
+        const root = 'C:\\Users\\me\\AppData\\Roaming\\npm\\node_modules';
+        const { command } = getUpdateCommand(`${root}\\@css-doodle\\cli`, root);
+        assert.match(command, /^npm install/);
+    });
+
+    it('uses the package manager that installed it', () => {
+        const cases = {
+            '/Users/me/.volta/tools/image/packages/@css-doodle/cli/lib/node_modules/@css-doodle/cli': 'volta install @css-doodle/cli',
+            '/Users/me/Library/pnpm/global/5/.pnpm/@css-doodle+cli@1.14.0/node_modules/@css-doodle/cli': 'pnpm add -g @css-doodle/cli',
+            '/home/me/.local/share/pnpm/global/5/node_modules/@css-doodle/cli': 'pnpm add -g @css-doodle/cli',
+            '/Users/me/.bun/install/global/node_modules/@css-doodle/cli': 'bun add -g @css-doodle/cli',
+            '/home/me/.config/yarn/global/node_modules/@css-doodle/cli': 'yarn global add @css-doodle/cli',
+            'C:\\Users\\me\\AppData\\Local\\Yarn\\Data\\global\\node_modules\\@css-doodle\\cli': 'yarn global add @css-doodle/cli',
+        };
+        for (const [dir, expected] of Object.entries(cases)) {
+            assert.strictEqual(getUpdateCommand(dir, npmRoot).command, expected, dir);
+        }
+    });
+
+    it("doesn't update a linked source code", () => {
+        const { command, reason } = getUpdateCommand('/Users/me/projects/css-doodle/cli', npmRoot);
+        assert.strictEqual(command, undefined);
+        assert.match(reason, /runs from its source code/);
+    });
+
+    it("doesn't update when run by npx", () => {
+        const { command, reason } = getUpdateCommand('/Users/me/.npm/_npx/1a2b3c/node_modules/@css-doodle/cli', npmRoot);
+        assert.strictEqual(command, undefined);
+        assert.match(reason, /npx @css-doodle\/cli@latest/);
+    });
+
+    it("doesn't update a project dependency", () => {
+        const { command, reason } = getUpdateCommand('/Users/me/site/node_modules/@css-doodle/cli', npmRoot);
+        assert.strictEqual(command, undefined);
+        assert.match(reason, /installed in a project/);
+    });
+
+    it("doesn't take a pnpm project dependency as a global one", () => {
+        const { command } = getUpdateCommand('/Users/me/site/node_modules/.pnpm/@css-doodle+cli@1.14.0/node_modules/@css-doodle/cli', npmRoot);
+        assert.strictEqual(command, undefined);
     });
 });
