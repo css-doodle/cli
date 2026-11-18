@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Record MP4 videos at 60fps instead of the browser's default 30fps
 - Start recording doodles from the beginning of their animations, or from the `--delay` time, instead of partway through (requires css-doodle 0.65.0
   or later)
-- Upgrade the bundled css-doodle to 0.69.0
+- Upgrade the bundled css-doodle to 0.70.0
 - Upgrade puppeteer-core to 25.16.0
 
 ## [1.13.0] - 2026-09-27
