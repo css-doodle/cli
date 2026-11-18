@@ -7,6 +7,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Accept `jpg` as an output format, e.g. `-o result.jpg` or `-f jpg`
+- Accept a directory for `-o`, e.g. `-o renders/`, to save the output there with the default filename
+- Print the warnings css-doodle reports about the code, e.g. `unknown function @foo() (1:41)`, and errors thrown on the page when rendering
+- Suggest the closest command for a mistyped one, e.g. `cssd rendr` suggests `render`
+- Preview the code piped to `cssd` without the `run` command, e.g. `cssd <<< '@grid: 5'`
+
+### Fixed
+
+- Fix `-o result.jpg` saving `result.jpg.png`
+- Fix `-o dir/` saving a hidden `dir/.png` file
+- Report an error for media formats that can't be generated, e.g. `-o result.svg`, instead of saving `result.svg.png`
+- Fix the stdin hint being written into the output when the piped input is slow, e.g. `slow-cmd | cssd gen svg > out.svg`
+- Fix `cssd run -` ignoring the code from stdin
+- Report an error for empty piped input in `run` instead of opening an empty preview
+
 ## [1.14.0] - 2026-11-18
 
 ### Changed

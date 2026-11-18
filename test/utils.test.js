@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert';
-import { checkExists, readTime } from '../lib/utils.js';
+import { checkExists, readTime, suggestSimilar } from '../lib/utils.js';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -79,5 +79,25 @@ describe('checkExists', () => {
 
     it('returns false for non-existing directory', async () => {
         assert.strictEqual(await checkExists('/non/existing/directory/'), false);
+    });
+});
+
+describe('suggestSimilar', () => {
+    const commands = ['run', 'preview', 'render', 'gen', 'generate', 'config', 'use', 'parse', 'update'];
+
+    it('suggests the closest command', () => {
+        assert.strictEqual(suggestSimilar('rendr', commands), 'render');
+        assert.strictEqual(suggestSimilar('renders', commands), 'render');
+        assert.strictEqual(suggestSimilar('updte', commands), 'update');
+    });
+
+    it('counts swapped letters as one edit', () => {
+        assert.strictEqual(suggestSimilar('conifg', commands), 'config');
+        assert.strictEqual(suggestSimilar('prase', commands), 'parse');
+    });
+
+    it('returns undefined when nothing is close', () => {
+        assert.strictEqual(suggestSimilar('foobar', commands), undefined);
+        assert.strictEqual(suggestSimilar('help', commands), undefined);
     });
 });

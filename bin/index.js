@@ -3,7 +3,7 @@
 import process from 'node:process';
 import { Command } from 'commander';
 import { pkg } from '../lib/static.js';
-import { log, style } from '../lib/utils.js';
+import { log, style, suggestSimilar } from '../lib/utils.js';
 
 import {
     handleDisplayConfig,
@@ -92,7 +92,7 @@ program
     .option('-t, --time <time>', 'Record screen for a specific time, e.g, `10s`')
     .option('-q, --quiet', 'Quiet mode, suppresses non-error output')
     .option('-w, --window <size>', 'The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos')
-    .option('-f, --format <format>', 'Output format, `png|webp|jpeg` for images, `mp4` for videos (`gif|webm` are deprecated)')
+    .option('-f, --format <format>', 'Output format, `png|webp|jpeg|jpg` for images, `mp4` for videos (`gif|webm` are deprecated)')
     .option('-y, --yes', 'Overwrite the output file if it already exists without prompting')
     .option('--seed <seed>', 'Seed for the random functions, to reproduce a result (only for css-doodle source code)')
     .action(handleRender);
@@ -156,7 +156,18 @@ program
     .description('Update CLI to latest version')
     .action(handleUpdate);
 
-if (process.argv.length <= 2) {
+// `run` is the default command, so a mistyped command like `cssd rendr code.css`
+// would be taken as a source. Every source has a `.` in it except `-` for stdin,
+// so a plain word that isn't a command must be an unknown command.
+const [firstArg] = process.argv.slice(2);
+const commandNames = program.commands.flatMap((cmd) => [cmd.name(), ...cmd.aliases()]);
+if (firstArg && !firstArg.startsWith('-') && !/[./\\:]/.test(firstArg) && !commandNames.includes(firstArg)) {
+    const suggestion = suggestSimilar(firstArg, commandNames);
+    program.error(`unknown command '${firstArg}'${suggestion ? `, did you mean '${suggestion}'?` : ''}`);
+}
+
+// Without arguments, preview the code piped in, e.g. `cssd <<< '...'`, or show the help.
+if (process.argv.length <= 2 && process.stdin.isTTY) {
     program.help();
 } else {
     try {

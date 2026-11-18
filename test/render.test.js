@@ -88,6 +88,54 @@ describe('getOutputInfo', () => {
         const result = getOutputInfo({ format: 'PNG' });
         assert.strictEqual(result.format, 'png');
     });
+
+    it('should accept jpg as jpeg and keep the .jpg extension', () => {
+        const options = { output: 'a.jpg' };
+        const result = getOutputInfo(options);
+        assert.strictEqual(options.output, 'a.jpg');
+        assert.strictEqual(result.format, 'jpeg');
+        assert.strictEqual(result.type, 'image');
+        assert.strictEqual(result.extension, 'jpg');
+    });
+
+    it('should accept -f jpg and name the output with .jpg', () => {
+        const options = { format: 'jpg', output: 'a' };
+        const result = getOutputInfo(options);
+        assert.strictEqual(options.output, 'a.jpg');
+        assert.strictEqual(result.format, 'jpeg');
+        assert.strictEqual(getOutputInfo({ format: 'JPG' }).extension, 'jpg');
+    });
+
+    it('should treat jpg and jpeg as the same format', () => {
+        const result = getOutputInfo({ format: 'jpg', output: 'a.jpeg' });
+        assert.strictEqual(result.format, 'jpeg');
+        assert.strictEqual(result.extension, 'jpeg');
+    });
+
+    it('should report the format as spelled when it conflicts', () => {
+        assert.throws(() => {
+            getOutputInfo({ format: 'jpg', output: 'a.png' });
+        }, /conflicting format 'jpg' and output extension 'png'/);
+    });
+
+    it('should throw error for unsupported media extensions', () => {
+        for (const output of ['a.svg', 'a.BMP', 'a.mov']) {
+            assert.throws(() => {
+                getOutputInfo({ output });
+            }, /unsupported output format/);
+        }
+    });
+
+    it('should keep other dotted names and append the extension', () => {
+        const options = { output: 'my.doodle' };
+        getOutputInfo(options);
+        assert.strictEqual(options.output, 'my.doodle.png');
+    });
+
+    it('should use the format as the extension by default', () => {
+        assert.strictEqual(getOutputInfo({}).extension, 'png');
+        assert.strictEqual(getOutputInfo({ time: 5000 }).extension, 'mp4');
+    });
 });
 
 describe('buildHTML', () => {

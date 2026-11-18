@@ -53,6 +53,7 @@ The `run` can be omitted if you just want to preview.
 
 ```bash
 cssd somefile.css
+cssd <<< '@grid: 5 / 400px; background: @p(red, blue)'
 ```
 
 ### render
@@ -60,14 +61,15 @@ cssd somefile.css
 Generate an image/video from the css-doodle source file. The source file can be a `.css`, `.cssd`, `.html` file, css-doodle link
 (`https://css-doodle.com/d/:id`), CodePen link, or http(s) URL.
 
-- `-o, --output <output>`: Custom output filename of the generated result, missing directories are created
+- `-o, --output <output>`: Custom output filename of the generated result, missing directories are created. A directory like `renders/` keeps the
+  default filename inside it
 - `-x, --scale <scale>`: Scale factor of the generated result, defaults to `2` for images, `1` for videos
 - `-s, --selector <selector>`: CSS selector to target the rendered node, defaults to `css-doodle`. Reports an error if no element matches
 - `-d, --delay <delay>`: Delay time before taking screenshot/screencast, e.g, `2s`, maximum `30s`
 - `-t, --time <time>`: Record screen for a specific time, e.g, `10s`, maximum `60s`
 - `-q, --quiet`: Quiet mode, suppresses non-error output
 - `-w, --window <size>`: The size of the rendered window, defaults to `1600x1000` for images, `1200x800` for videos
-- `-f, --format <format>`: Output format, `png|webp|jpeg` for images, `mp4` for videos (`gif|webm` are deprecated)
+- `-f, --format <format>`: Output format, `png|webp|jpeg|jpg` for images, `mp4` for videos (`gif|webm` are deprecated)
 - `-y, --yes`: Overwrite the output file if it already exists without prompting
 - `--seed <seed>`: Seed for the random functions, to reproduce a result (only for css-doodle source code)
 
@@ -94,8 +96,8 @@ Screen recording:
 cssd render -t 10s
 ```
 
-If the output filename ends with `.png`, `.webp`, or `.jpeg`, it will generate an image; if it ends with `.mp4`, it will generate a video. If no
-output filename is specified, you can use the `-f` option to specify the output format. By default, it will generate a PNG image.
+If the output filename ends with `.png`, `.webp`, `.jpeg`, or `.jpg`, it will generate an image; if it ends with `.mp4`, it will generate a video. If
+no output filename is specified, you can use the `-f` option to specify the output format. By default, it will generate a PNG image.
 
 Videos are recorded by the browser as AV1-encoded MP4. The `.gif` and `.webm` formats are deprecated and require [ffmpeg](https://ffmpeg.org).
 
