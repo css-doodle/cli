@@ -134,7 +134,7 @@ cssd gen polygon
 
 ### config
 
-Display/set the configurations in key/value pairs.
+Display/set the configurations in key/value pairs. They are saved in `~/.config/css-doodle/config.json`, or under `$XDG_CONFIG_HOME` when it's set.
 
 - `set <field> <value>`: Set a configuration with key/value pair.
 - `get <field>`: Get a configuration value by key.

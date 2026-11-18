@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `config set/get/unset` report unknown fields with a suggestion, e.g. `browserpath`, instead of saving them
 - `config set browserPath` reports a path that doesn't exist or isn't a file
 - Lowercase the descriptions of `render` options to match the others, and mention videos in the `render` description
+- Save the configurations under `$XDG_CONFIG_HOME` when it's set, instead of always in `~/.config`
 
 ### Fixed
 
@@ -37,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Report an error for empty piped input in `run` instead of opening an empty preview
 - Fix the overwrite prompt hanging after typing the code to render into the terminal
 - Fix the preview window size on platforms whose title bar isn't 28px high
+- Fix recorded videos being still when the system reduces motion, e.g. with Reduce motion on in macOS, as css-doodle pauses then
 
 ## [1.14.0] - 2026-11-18
 
